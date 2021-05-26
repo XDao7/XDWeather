@@ -252,7 +252,7 @@ class RoundProgressBar : BaseScrollAnimtorView {
             val textY = if (firstText.isEmpty()) {
                 ((height + bounds.height()) / 2).toFloat()
             } else {
-                (height * 7 / 15 + getFontHeight(secondText, secondTextSize)).toFloat()
+                (height * 7 / 15 + bounds.height()).toFloat()
             }
             drawText(
                 secondText,
@@ -352,20 +352,5 @@ class RoundProgressBar : BaseScrollAnimtorView {
                 start()
             }
         }
-    }
-
-    /**
-     * 测量字体的高度
-     *
-     * @param textStr
-     * @param fontSize
-     * @return
-     */
-    private fun getFontHeight(textStr: String, fontSize: Int): Int {
-        val paint = Paint()
-        paint.textSize = fontSize.toFloat()
-        val bounds = Rect()
-        paint.getTextBounds(textStr, 0, textStr.length, bounds)
-        return bounds.height()
     }
 }

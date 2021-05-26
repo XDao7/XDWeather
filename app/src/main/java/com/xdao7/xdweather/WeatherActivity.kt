@@ -25,7 +25,6 @@ import com.xdao7.xdweather.logic.model.getSky
 import com.xdao7.xdweather.logic.model.response.qweather.Location
 import com.xdao7.xdweather.ui.weather.WeatherViewModel
 import com.xdao7.xdweather.utils.*
-import com.xdao7.xdweather.utils.callback.IConnectivityCallback
 import com.xdao7.xdweather.view.BaseScrollAnimtorView
 
 class WeatherActivity : AppCompatActivity() {
@@ -182,7 +181,7 @@ class WeatherActivity : AppCompatActivity() {
     private fun initListener() {
         NetworkUtils.addNetworkCallback(
             WeatherActivity::class.java.simpleName,
-            object : IConnectivityCallback {
+            object : NetworkUtils.IConnectivityCallback {
                 override fun onAvailable(network: Network?) {
                     runOnUiThread {
                         if (viewModel.needRefresh) {

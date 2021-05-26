@@ -2,15 +2,14 @@ package com.xdao7.xdweather.utils
 
 import android.content.Context
 import android.net.*
-import com.xdao7.xdweather.utils.callback.IConnectivityCallback
 
 
-object NetworkUtils {
-    private val networkCallback: ConnectivityManager.NetworkCallback
-    private val callbackList: MutableMap<Any, IConnectivityCallback> = HashMap()
+class NetworkUtils {
 
-    init {
-        networkCallback = object : ConnectivityManager.NetworkCallback() {
+    companion object {
+
+        private val callbackList: MutableMap<Any, IConnectivityCallback> = HashMap()
+        private val networkCallback = object : ConnectivityManager.NetworkCallback() {
             /*
              * 网络可用的回调
              */
@@ -70,24 +69,40 @@ object NetworkUtils {
                 super.onBlockedStatusChanged(network, blocked)
             }
         }
+
+        /**
+         * 在application中调用
+         */
+        fun register(context: Context) {
+            val builder = NetworkRequest.Builder()
+            val request = builder.build()
+            val connectivityManager =
+                context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            connectivityManager.registerNetworkCallback(request, networkCallback)
+        }
+
+        fun addNetworkCallback(tag: Any, call: IConnectivityCallback) {
+            callbackList[tag] = call
+        }
+
+        fun removeNetworkCallback(tag: Any) {
+            callbackList[tag]
+        }
     }
 
-    /**
-     * 在application中调用
-     */
-    fun register(context: Context) {
-        val builder = NetworkRequest.Builder()
-        val request = builder.build()
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        connectivityManager.registerNetworkCallback(request, networkCallback)
-    }
+    interface IConnectivityCallback {
+        /**
+         * 网络可用回调
+         *
+         * @param network Network
+         */
+        fun onAvailable(network: Network?)
 
-    fun addNetworkCallback(tag: Any, call: IConnectivityCallback) {
-        callbackList[tag] = call
-    }
-
-    fun removeNetworkCallback(tag: Any) {
-        callbackList[tag]
+        /**
+         * 网络丢失回调
+         *
+         * @param network Network
+         */
+        fun onLost(network: Network?)
     }
 }
