@@ -46,6 +46,11 @@ class SunAnimtorView : BaseScrollAnimtorView {
     private var currentAngle = 0f
 
     /**
+     * 动画中实时绘制的角度
+     */
+    private var animatorAngle = 0f
+
+    /**
      * 总时间
      */
     private var totalMinute = 0f
@@ -326,7 +331,7 @@ class SunAnimtorView : BaseScrollAnimtorView {
             ValueAnimator.ofFloat(0f, currentAngle).run {
                 this.duration = 2000L
                 addUpdateListener { animation ->
-                    this@SunAnimtorView.currentAngle = animation.animatedValue as Float
+                    animatorAngle = animation.animatedValue as Float
                     invalidateView()
                 }
                 start()
@@ -338,11 +343,11 @@ class SunAnimtorView : BaseScrollAnimtorView {
      * 动态修正太阳、月亮位置
      */
     private fun invalidateView() {
-        positionX = (viewWidth / 2 - (radius * cos((currentAngle) * Math.PI / 180)) - dp2px(
+        positionX = (viewWidth / 2 - (radius * cos((animatorAngle) * Math.PI / 180)) - dp2px(
             context,
             10f
         )).toFloat()
-        positionY = (radius - (radius * sin((currentAngle) * Math.PI / 180)) + dp2px(
+        positionY = (radius - (radius * sin((animatorAngle) * Math.PI / 180)) + dp2px(
             context,
             18f
         )).toFloat()

@@ -41,6 +41,11 @@ class RoundProgressBar : BaseScrollAnimtorView {
     private var currentAngleSize = 0f
 
     /**
+     * 动画中实时绘制的角度
+     */
+    private var animatorAngleSize = 0f
+
+    /**
      * 当前进度
      */
     private var currentProgress = 0f
@@ -214,7 +219,7 @@ class RoundProgressBar : BaseScrollAnimtorView {
      */
     private fun drawArcProgress(canvas: Canvas) {
         pathPaint.color = progressColor
-        canvas.drawArc(rectF, startAngle, currentAngleSize, false, pathPaint)
+        canvas.drawArc(rectF, startAngle, animatorAngleSize, false, pathPaint)
     }
 
     /**
@@ -346,7 +351,7 @@ class RoundProgressBar : BaseScrollAnimtorView {
             ValueAnimator.ofFloat(0f, currentAngleSize).apply {
                 this.duration = this@RoundProgressBar.duration
                 addUpdateListener { animator ->
-                    currentAngleSize = animator.animatedValue as Float
+                    animatorAngleSize = animator.animatedValue as Float
                     invalidate()
                 }
                 start()
