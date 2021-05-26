@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SunView">
+        <attr name="sun_circle_color" format="color" />
+        <attr name="sun_font_color" format="color" />
+        <attr name="sun_font_size" format="dimension" />
+        <attr name="sun_circle_radius" format="integer" />
+        <attr name="type" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="RoundProgressBar">
+        <attr name="round_max_progress" format="float"/>
+        <attr name="round_bg_color" format="color"/>
+        <attr name="round_stroke_width" format="dimension"/>
+        <attr name="round_progress" format="float"/>
+        <attr name="round_progress_color" format="color"/>
+        <attr name="round_text_color" format="color"/>
+        <attr name="round_first_text" format="string"/>
+        <attr name="round_first_text_size" format="dimension"/>
+        <attr name="round_second_text" format="string"/>
+        <attr name="round_second_text_size" format="dimension"/>
+        <attr name="round_min_text" format="integer"/>
+        <attr name="round_min_text_size" format="dimension"/>
+        <attr name="round_max_text" format="integer"/>
+        <attr name="round_max_text_size" format="dimension"/>
+        <attr name="round_angle_size" format="float"/>
+        <attr name="round_start_angle" format="float"/>
+    </declare-styleable>
+
+    <declare-styleable name="WindmillsView">
+        <attr name="windColor" format="reference|color" />
+    </declare-styleable>
+</resources>

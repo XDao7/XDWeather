@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="15dp"
+    app:cardCornerRadius="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp">
+
+        <TextView
+            android:id="@+id/text_life_index"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/str_life_index"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_humidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/str_humidity"
+            app:layout_constraintEnd_toEndOf="@id/round_bar_humidity"
+            app:layout_constraintStart_toStartOf="@id/round_bar_humidity"
+            app:layout_constraintTop_toBottomOf="@id/text_life_index" />
+
+        <com.xdao7.xdweather.view.RoundProgressBar
+            android:id="@+id/round_bar_humidity"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_humidity"
+            app:round_max_progress="100"
+            app:round_max_text="100"
+            app:round_min_text="0"
+            tools:round_round_progress="80" />
+
+        <TextView
+            android:id="@+id/text_feels_like_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/str_feels_like_title"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintBottom_toBottomOf="@id/round_bar_humidity"
+            app:layout_constraintEnd_toStartOf="@id/text_feels_like"
+            app:layout_constraintStart_toEndOf="@id/round_bar_humidity"
+            app:layout_constraintTop_toTopOf="@id/round_bar_humidity" />
+
+        <TextView
+            android:id="@+id/text_feels_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginStart="20dp"
+            app:layout_constraintBottom_toBottomOf="@id/text_feels_like_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/text_feels_like_title"
+            app:layout_constraintTop_toTopOf="@id/text_feels_like_title"
+            tools:text="20 ℃" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_cold_risk"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintBottom_toTopOf="@id/cl_ultraviolet"
+            app:layout_constraintEnd_toStartOf="@id/cl_dressing"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/round_bar_humidity">
+
+            <ImageView
+                android:id="@+id/image_cold_risk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_coldrisk"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_cold_risk_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="@string/str_cold_risk"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@id/text_cold_risk"
+                app:layout_constraintStart_toEndOf="@id/image_cold_risk"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_cold_risk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/image_cold_risk"
+                app:layout_constraintStart_toStartOf="@id/text_cold_risk_title"
+                app:layout_constraintTop_toBottomOf="@id/text_cold_risk_title"
+                tools:text="极易发" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_dressing"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            app:layout_constraintBottom_toTopOf="@id/cl_car_washing"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cl_cold_risk"
+            app:layout_constraintTop_toTopOf="@id/cl_cold_risk">
+
+            <ImageView
+                android:id="@+id/image_dressing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_dressing"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_dressing_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="@string/str_dressing"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@id/text_dressing"
+                app:layout_constraintStart_toEndOf="@id/image_dressing"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_dressing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/image_dressing"
+                app:layout_constraintStart_toStartOf="@id/text_dressing_title"
+                app:layout_constraintTop_toBottomOf="@id/text_dressing_title"
+                tools:text="冷" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_ultraviolet"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/cl_car_washing"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_cold_risk">
+
+            <ImageView
+                android:id="@+id/image_ultraviolet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_ultraviolet"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_ultraviolet_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="@string/str_ultraviolet"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@id/text_ultraviolet"
+                app:layout_constraintStart_toEndOf="@id/image_ultraviolet"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_ultraviolet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/image_ultraviolet"
+                app:layout_constraintStart_toStartOf="@id/text_ultraviolet_title"
+                app:layout_constraintTop_toBottomOf="@id/text_ultraviolet_title"
+                tools:text="强" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_car_washing"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cl_ultraviolet"
+            app:layout_constraintTop_toBottomOf="@id/cl_dressing">
+
+            <ImageView
+                android:id="@+id/image_car_washing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_carwashing"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_car_washing_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="@string/str_car_washing"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@id/text_car_washing"
+                app:layout_constraintStart_toEndOf="@id/image_car_washing"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_car_washing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/image_car_washing"
+                app:layout_constraintStart_toStartOf="@id/text_car_washing_title"
+                app:layout_constraintTop_toBottomOf="@id/text_car_washing_title"
+                tools:text="适宜" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="colorCityList">
+        <item>@color/colorCity1</item>
+        <item>@color/colorCity2</item>
+        <item>@color/colorCity3</item>
+        <item>@color/colorCity4</item>
+        <item>@color/colorCity5</item>
+    </integer-array>
+</resources>

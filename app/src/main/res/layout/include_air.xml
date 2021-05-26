@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="15dp"
+    android:layout_marginTop="15dp"
+    android:layout_marginEnd="15dp"
+    app:cardCornerRadius="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp">
+
+        <TextView
+            android:id="@+id/text_air"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/str_air"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.xdao7.xdweather.view.RoundProgressBar
+            android:id="@+id/round_bar_air"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            app:round_max_progress="500"
+            app:round_min_text="0"
+            app:round_max_text="500"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_air"
+            tools:round_round_progress="80"/>
+
+        <TextView
+            android:id="@+id/title_pm10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/str_pm10"
+            app:layout_constraintBottom_toBottomOf="@id/pm10"
+            app:layout_constraintEnd_toStartOf="@id/pm10"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/round_bar_air"
+            app:layout_constraintTop_toTopOf="@id/pm10" />
+
+        <TextView
+            android:id="@+id/pm10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/title_pm10"
+            app:layout_constraintTop_toTopOf="@id/round_bar_air"
+            tools:text="55" />
+
+        <TextView
+            android:id="@+id/title_pm2d5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/str_pm2p5"
+            app:layout_constraintBottom_toBottomOf="@id/pm2p5"
+            app:layout_constraintStart_toStartOf="@id/title_pm10"
+            app:layout_constraintTop_toTopOf="@id/pm2p5" />
+
+        <TextView
+            android:id="@+id/pm2p5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="@id/pm10"
+            app:layout_constraintTop_toBottomOf="@id/pm10"
+            tools:text="55" />
+
+        <TextView
+            android:id="@+id/title_no2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/str_no2"
+            app:layout_constraintBottom_toBottomOf="@id/no2"
+            app:layout_constraintStart_toStartOf="@id/title_pm10"
+            app:layout_constraintTop_toTopOf="@id/no2" />
+
+        <TextView
+            android:id="@+id/no2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="@id/pm10"
+            app:layout_constraintTop_toBottomOf="@id/pm2p5"
+            tools:text="55" />
+
+        <TextView
+            android:id="@+id/title_so2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/str_so2"
+            app:layout_constraintBottom_toBottomOf="@id/so2"
+            app:layout_constraintStart_toStartOf="@id/title_pm10"
+            app:layout_constraintTop_toTopOf="@id/so2" />
+
+        <TextView
+            android:id="@+id/so2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="@id/pm10"
+            app:layout_constraintTop_toBottomOf="@id/no2"
+            tools:text="55" />
+
+        <TextView
+            android:id="@+id/title_co"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/str_co"
+            app:layout_constraintBottom_toBottomOf="@id/co"
+            app:layout_constraintStart_toStartOf="@id/title_pm10"
+            app:layout_constraintTop_toTopOf="@id/co" />
+
+        <TextView
+            android:id="@+id/co"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="@id/pm10"
+            app:layout_constraintTop_toBottomOf="@id/so2"
+            tools:text="55" />
+
+        <TextView
+            android:id="@+id/title_o3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/str_o3"
+            app:layout_constraintBottom_toBottomOf="@id/o3"
+            app:layout_constraintStart_toStartOf="@id/title_pm10"
+            app:layout_constraintTop_toTopOf="@id/o3" />
+
+        <TextView
+            android:id="@+id/o3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="@id/pm10"
+            app:layout_constraintTop_toBottomOf="@id/co"
+            tools:text="55" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

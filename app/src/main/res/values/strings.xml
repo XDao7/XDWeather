@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">XDWeather</string>
+
+    <string name="str_author">XDao7</string>
+    <string name="str_hint_search_place">搜索城市（中文/拼音）</string>
+    <string name="str_btn_search">搜索</string>
+    <string name="str_no_search">未能查询到任何地点</string>
+    <string name="str_place_adm">%1$s,%2$s,%3$s</string>
+
+    <string name="str_no_weather">无法成功获取天气信息</string>
+    <string name="str_temp">%1$d ℃</string>
+    <string name="str_data_source">QWeather</string>
+    <string name="str_refresh_success">天气刷新成功</string>
+    <string name="str_network_disconnected">网络未连接</string>
+    <string name="str_network_setting">设置</string>
+    <string name="str_day_of_week_1">星期日</string>
+    <string name="str_day_of_week_2">星期一</string>
+    <string name="str_day_of_week_3">星期二</string>
+    <string name="str_day_of_week_4">星期三</string>
+    <string name="str_day_of_week_5">星期四</string>
+    <string name="str_day_of_week_6">星期五</string>
+    <string name="str_day_of_week_7">星期六</string>
+
+    <string name="str_forecast">预报</string>
+    <string name="str_temp_limit">%1$d ~ %2$d ℃</string>
+
+    <string name="str_air">空气质量</string>
+    <string name="str_pm10">PM10</string>
+    <string name="str_pm2p5">PM2.5</string>
+    <string name="str_no2">NO2</string>
+    <string name="str_so2">SO2</string>
+    <string name="str_co">CO</string>
+    <string name="str_o3">O3</string>
+
+    <string name="str_life_index">生活指数</string>
+    <string name="str_humidity">空气湿度</string>
+    <string name="str_feels_like_title">体感温度</string>
+    <string name="str_feels_like">%1$d ℃</string>
+    <string name="str_cold_risk">感冒</string>
+    <string name="str_dressing">穿衣</string>
+    <string name="str_ultraviolet">实时紫外线</string>
+    <string name="str_car_washing">洗车</string>
+
+    <string name="str_wind_title">风力风向</string>
+    <string name="str_wind_dir_title">风向</string>
+    <string name="str_wind_scale_title">风力</string>
+    <string name="str_wind_scale">%1$d级</string>
+
+    <string name="str_sun_moon">太阳和月亮</string>
+    <string name="str_sun_rise">日出</string>
+    <string name="str_sun_set">日落</string>
+    <string name="str_moon_rise">月升</string>
+    <string name="str_moon_set">月落</string>
+
+    <string name="str_city_manager">城市管理</string>
+</resources>

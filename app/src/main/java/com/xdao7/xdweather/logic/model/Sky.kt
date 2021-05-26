@@ -1,0 +1,73 @@
+package com.xdao7.xdweather.logic.model
+
+import com.xdao7.xdweather.R
+
+class Sky(val smallIcon: Int, val bg: Int, val info: String,)
+
+private val sky = mapOf(
+    100 to Sky(R.drawable.ic_weather_1,  R.drawable.bg_clear_day,           "晴"),
+    101 to Sky(R.drawable.ic_weather_2,  R.drawable.bg_cloudy,              "多云"),
+    102 to Sky(R.drawable.ic_weather_3,  R.drawable.bg_partly_cloudy_day,   "少云"),
+    103 to Sky(R.drawable.ic_weather_4,  R.drawable.bg_partly_cloudy_day,   "晴间多云"),
+    104 to Sky(R.drawable.ic_weather_5,  R.drawable.bg_cloudy,              "阴"),
+    150 to Sky(R.drawable.ic_weather_6,  R.drawable.bg_clear_night,         "晴"),
+    153 to Sky(R.drawable.ic_weather_7,  R.drawable.bg_partly_cloudy_night, "晴间多云"),
+    154 to Sky(R.drawable.ic_weather_8,  R.drawable.bg_cloudy,              "阴"),
+    300 to Sky(R.drawable.ic_weather_9,  R.drawable.bg_rain,                "阵雨"),
+    301 to Sky(R.drawable.ic_weather_10, R.drawable.bg_rain,                "强阵雨"),
+    302 to Sky(R.drawable.ic_weather_11, R.drawable.bg_rain,                "雷阵雨"),
+    303 to Sky(R.drawable.ic_weather_12, R.drawable.bg_rain,                "强雷阵雨"),
+    304 to Sky(R.drawable.ic_weather_13, R.drawable.bg_rain,                "雷阵雨伴有冰雹"),
+    305 to Sky(R.drawable.ic_weather_14, R.drawable.bg_rain,                "小雨"),
+    306 to Sky(R.drawable.ic_weather_15, R.drawable.bg_rain,                "中雨"),
+    307 to Sky(R.drawable.ic_weather_16, R.drawable.bg_rain,                "大雨"),
+    308 to Sky(R.drawable.ic_weather_17, R.drawable.bg_rain,                "极端降雨"),
+    309 to Sky(R.drawable.ic_weather_18, R.drawable.bg_rain,                "细雨"),
+    310 to Sky(R.drawable.ic_weather_19, R.drawable.bg_rain,                "暴雨"),
+    311 to Sky(R.drawable.ic_weather_20, R.drawable.bg_rain,                "大暴雨"),
+    312 to Sky(R.drawable.ic_weather_21, R.drawable.bg_rain,                "特大暴雨"),
+    313 to Sky(R.drawable.ic_weather_22, R.drawable.bg_rain,                "冻雨"),
+    314 to Sky(R.drawable.ic_weather_23, R.drawable.bg_rain,                "小到中雨"),
+    315 to Sky(R.drawable.ic_weather_24, R.drawable.bg_rain,                "中到大雨"),
+    316 to Sky(R.drawable.ic_weather_25, R.drawable.bg_rain,                "大到暴雨"),
+    317 to Sky(R.drawable.ic_weather_26, R.drawable.bg_rain,                "暴雨到大暴雨"),
+    318 to Sky(R.drawable.ic_weather_27, R.drawable.bg_rain,                "大暴雨到特大暴雨"),
+    399 to Sky(R.drawable.ic_weather_28, R.drawable.bg_rain,                "雨"),
+    350 to Sky(R.drawable.ic_weather_29, R.drawable.bg_rain,                "阵雨"),
+    351 to Sky(R.drawable.ic_weather_30, R.drawable.bg_rain,                "强阵雨"),
+    400 to Sky(R.drawable.ic_weather_31, R.drawable.bg_snow,                "小雪"),
+    401 to Sky(R.drawable.ic_weather_32, R.drawable.bg_snow,                "中雪"),
+    402 to Sky(R.drawable.ic_weather_33, R.drawable.bg_snow,                "大雪"),
+    403 to Sky(R.drawable.ic_weather_34, R.drawable.bg_snow,                "暴雪"),
+    404 to Sky(R.drawable.ic_weather_35, R.drawable.bg_snow,                "雨夹雪"),
+    405 to Sky(R.drawable.ic_weather_36, R.drawable.bg_snow,                "雨雪天气"),
+    406 to Sky(R.drawable.ic_weather_37, R.drawable.bg_snow,                "阵雨夹雪"),
+    407 to Sky(R.drawable.ic_weather_38, R.drawable.bg_snow,                "阵雪"),
+    408 to Sky(R.drawable.ic_weather_39, R.drawable.bg_snow,                "小到中雪"),
+    409 to Sky(R.drawable.ic_weather_40, R.drawable.bg_snow,                "中到大雪"),
+    410 to Sky(R.drawable.ic_weather_41, R.drawable.bg_snow,                "大到暴雪"),
+    499 to Sky(R.drawable.ic_weather_42, R.drawable.bg_snow,                "雪"),
+    456 to Sky(R.drawable.ic_weather_43, R.drawable.bg_snow,                "阵雨夹雪"),
+    457 to Sky(R.drawable.ic_weather_44, R.drawable.bg_snow,                "阵雪"),
+    500 to Sky(R.drawable.ic_weather_45, R.drawable.bg_fog,                 "薄雾"),
+    501 to Sky(R.drawable.ic_weather_46, R.drawable.bg_fog,                 "雾"),
+    502 to Sky(R.drawable.ic_weather_47, R.drawable.bg_fog,                 "霾"),
+    503 to Sky(R.drawable.ic_weather_48, R.drawable.bg_fog,                 "扬沙"),
+    504 to Sky(R.drawable.ic_weather_49, R.drawable.bg_fog,                 "浮尘"),
+    507 to Sky(R.drawable.ic_weather_50, R.drawable.bg_fog,                 "沙尘暴"),
+    508 to Sky(R.drawable.ic_weather_51, R.drawable.bg_fog,                 "强沙尘暴"),
+    509 to Sky(R.drawable.ic_weather_52, R.drawable.bg_fog,                 "浓雾"),
+    510 to Sky(R.drawable.ic_weather_53, R.drawable.bg_fog,                 "强浓雾"),
+    511 to Sky(R.drawable.ic_weather_54, R.drawable.bg_fog,                 "中度霾"),
+    512 to Sky(R.drawable.ic_weather_55, R.drawable.bg_fog,                 "重度霾"),
+    513 to Sky(R.drawable.ic_weather_56, R.drawable.bg_fog,                 "严重霾"),
+    514 to Sky(R.drawable.ic_weather_57, R.drawable.bg_fog,                 "大雾"),
+    515 to Sky(R.drawable.ic_weather_58, R.drawable.bg_fog,                 "特强浓雾"),
+    900 to Sky(R.drawable.ic_weather_59, R.drawable.bg_clear_day,           "热"),
+    901 to Sky(R.drawable.ic_weather_60, R.drawable.bg_clear_night,         "冷"),
+    999 to Sky(R.drawable.ic_weather_61, R.drawable.bg_wind,                "未知")
+)
+
+fun getSky(code: Int): Sky {
+    return sky[code] ?: sky[0]!!
+}
