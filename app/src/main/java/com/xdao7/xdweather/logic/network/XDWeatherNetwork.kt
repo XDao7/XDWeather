@@ -2,7 +2,6 @@ package com.xdao7.xdweather.logic.network
 
 import com.xdao7.xdweather.BuildConfig
 import com.xdao7.xdweather.logic.network.callback.hyper.LifeService
-import com.xdao7.xdweather.logic.network.callback.qweather.AirService
 import com.xdao7.xdweather.logic.network.callback.qweather.WeatherService
 import com.xdao7.xdweather.logic.network.callback.qweather.PlaceService
 import retrofit2.Call
@@ -17,7 +16,6 @@ object XDWeatherNetwork {
 
     private val placeService = ServiceCreator.create<PlaceService>(ServiceCreator.TYPE_GEO)
     private val weatherService = ServiceCreator.create<WeatherService>(ServiceCreator.TYPE_QWEATHER)
-    private val airService = ServiceCreator.create<AirService>(ServiceCreator.TYPE_QWEATHER)
     private val lifeService = ServiceCreator.create<LifeService>(ServiceCreator.TYPE_HYPER)
 
     suspend fun searchPlaces(query: String) = placeService.searchPlaces(query, BuildConfig.PRIVATE_QWEATHER_KEY).await()
@@ -26,7 +24,7 @@ object XDWeatherNetwork {
 
     suspend fun getDailyWeather(id: String) = weatherService.getDailyWeather(id, BuildConfig.PRIVATE_QWEATHER_KEY).await()
 
-    suspend fun getAir(id: String) = airService.getAir(id, BuildConfig.PRIVATE_QWEATHER_KEY).await()
+    suspend fun getAir(id: String) = weatherService.getAir(id, BuildConfig.PRIVATE_QWEATHER_KEY).await()
 
     suspend fun getLifeSuggestion(lat: Float, lon: Float) = lifeService.getLifeSuggestion(BuildConfig.PRIVATE_HYPER_DATA_KEY, "$lat:$lon").await()
 
