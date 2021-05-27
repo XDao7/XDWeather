@@ -1,6 +1,7 @@
 package com.xdao7.xdweather.view
 
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
@@ -13,7 +14,7 @@ import java.text.DecimalFormat
 import kotlin.math.cos
 import kotlin.math.sin
 
-class SunAnimtorView : BaseScrollAnimtorView {
+class SunAnimatorView : BaseScrollAnimatorView {
 
     /**
      * 控件宽度
@@ -50,20 +51,6 @@ class SunAnimtorView : BaseScrollAnimtorView {
      */
     private var animatorAngle = 0f
 
-    /**
-     * 总时间
-     */
-    private var totalMinute = 0f
-
-    /**
-     * 当前时间减去日出时间后的总数
-     */
-    private var needMinute = 0f
-
-    /**
-     * 根据所给的时间算出来的百分占比
-     */
-    private var percentage = 0f
     private var positionX = 0f
     private var positionY = 0f
     private var fontSize = 0f
@@ -79,6 +66,7 @@ class SunAnimtorView : BaseScrollAnimtorView {
     private lateinit var sunIcon: Bitmap
     private lateinit var moonIcon: Bitmap
     private var isSun = true
+    private var iconWidth = 0f
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -90,70 +78,83 @@ class SunAnimtorView : BaseScrollAnimtorView {
         initView(attrs)
     }
 
+    @SuppressLint("Recycle")
     private fun initView(attrs: AttributeSet?) {
         attrs?.let {
-            context.obtainStyledAttributes(it, R.styleable.SunView).apply {
+            context.obtainStyledAttributes(it, R.styleable.SunAnimatorView).apply {
                 circleColor = getColor(
-                    R.styleable.SunView_sun_circle_color,
+                    R.styleable.SunAnimatorView_sun_circle_color,
                     ContextCompat.getColor(context, R.color.colorDefault)
                 )
                 fontColor = getColor(
-                    R.styleable.SunView_sun_font_color,
+                    R.styleable.SunAnimatorView_sun_font_color,
                     ContextCompat.getColor(context, R.color.colorDefault)
                 )
                 radius =
-                    dp2px(context, getInteger(R.styleable.SunView_sun_circle_radius, 10).toFloat())
-                fontSize = getDimension(R.styleable.SunView_sun_font_size, 12f)
+                    dp2px(context, getInteger(R.styleable.SunAnimatorView_sun_circle_radius, 10).toFloat())
+                fontSize = getDimension(R.styleable.SunAnimatorView_sun_font_size, 12f)
                 fontSize = dp2px(context, fontSize).toFloat()
-                isSun = getBoolean(R.styleable.SunView_type, true)
+                isSun = getBoolean(R.styleable.SunAnimatorView_type, true)
                 recycle()
             }
         }
 
         marginTop = dp2px(context, 30f)
 
-        textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        textPaint = Paint().apply {
             style = Paint.Style.FILL
+            isAntiAlias = true
             color = fontColor
             textSize = fontSize
             textAlign = Paint.Align.CENTER
         }
 
-        imagePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        imagePaint = Paint().apply {
+            isAntiAlias = true
             isDither = true
         }
 
-        timePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        timePaint = Paint().apply {
             style = Paint.Style.FILL
+            isAntiAlias = true
             color = ContextCompat.getColor(context, R.color.black)
             textSize = fontSize
             textAlign = Paint.Align.CENTER
         }
 
-        pathPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        pathPaint = Paint().apply {
+            isAntiAlias = true
             color = ContextCompat.getColor(context, R.color.black)
             isDither = true
             color = circleColor
             style = Paint.Style.STROKE
+            pathEffect = DashPathEffect(floatArrayOf(4f, 4f), 0f)
         }
 
+        iconWidth = dp2px(context, 18f).toFloat()
         sunIcon = bitmapResize(
             BitmapFactory.decodeResource(resources, R.drawable.ic_sun),
-            dp2px(context, 18f).toFloat(),
-            dp2px(context, 18f).toFloat()
+            iconWidth, iconWidth
         )
         moonIcon = bitmapResize(
             BitmapFactory.decodeResource(resources, R.drawable.ic_moon),
-            dp2px(context, 18f).toFloat(),
-            dp2px(context, 18f).toFloat()
+            iconWidth, iconWidth
         )
+
+        animator = ValueAnimator().apply {
+            this.duration = 2000L
+            addUpdateListener { animation ->
+                animatorAngle = animation.animatedValue as Float
+                invalidateView()
+            }
+        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         viewWidth = measuredWidth
-        positionX = (viewWidth / 2 - radius - dp2px(context, 9f)).toFloat()
-        positionY = radius.toFloat()
+        positionX = viewWidth / 2 - radius - iconWidth / 2
+        positionY = radius + marginTop - iconWidth / 2
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
@@ -184,8 +185,14 @@ class SunAnimtorView : BaseScrollAnimtorView {
             (radius * 2 + marginTop).toFloat()
         )
         canvas.apply {
-            drawArc(rectF, 180f, 180f, true, pathPaint)
-            save()
+            drawArc(rectF, 180f, 180f, false, pathPaint)
+            drawLine(
+                viewWidth / 2 - radius - 18f,
+                (radius + marginTop).toFloat(),
+                viewWidth / 2 + radius + 18f,
+                (radius + marginTop).toFloat(),
+                timePaint
+            )
         }
     }
 
@@ -270,15 +277,16 @@ class SunAnimtorView : BaseScrollAnimtorView {
             endHour += 24
         }
 
-        totalMinute = calculateTime(startHour, startMin, endHour, endMin, false)
-        needMinute =
+        val totalMinute = calculateTime(startHour, startMin, endHour, endMin, false)
+        val needMinute =
             if (isSun && (currentHour > endHour || (currentHour == endHour && currentMin >= endMin))) {
                 calculateTime(startHour, startMin, endHour, endMin, true)
             } else {
                 calculateTime(startHour, startMin, currentHour, currentMin, true)
             }
-        percentage = formatTime(totalMinute, needMinute).toFloat()
-        currentAngle = 180 * percentage
+        val percentage = formatTime(totalMinute, needMinute).toFloat()
+        currentAngle = percentage * 180
+
         isNeedAnimator = true
         startAnimator()
     }
@@ -326,14 +334,9 @@ class SunAnimtorView : BaseScrollAnimtorView {
      * 启动动画
      */
     override fun startAnimator() {
-        if (isNeedAnimator) {
-            isNeedAnimator = false
-            ValueAnimator.ofFloat(0f, currentAngle).run {
-                this.duration = 2000L
-                addUpdateListener { animation ->
-                    animatorAngle = animation.animatedValue as Float
-                    invalidateView()
-                }
+        baseAnimator {
+            animator.apply {
+                setFloatValues(0f, currentAngle)
                 start()
             }
         }
@@ -343,14 +346,10 @@ class SunAnimtorView : BaseScrollAnimtorView {
      * 动态修正太阳、月亮位置
      */
     private fun invalidateView() {
-        positionX = (viewWidth / 2 - (radius * cos((animatorAngle) * Math.PI / 180)) - dp2px(
-            context,
-            10f
-        )).toFloat()
-        positionY = (radius - (radius * sin((animatorAngle) * Math.PI / 180)) + dp2px(
-            context,
-            18f
-        )).toFloat()
+        positionX =
+            (viewWidth / 2 - (radius * cos((animatorAngle) * Math.PI / 180)) - iconWidth / 2).toFloat()
+        positionY =
+            (radius + marginTop - (radius * sin((animatorAngle) * Math.PI / 180)) + -iconWidth / 2).toFloat()
         invalidate()
     }
 }

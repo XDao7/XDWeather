@@ -1,6 +1,7 @@
 package com.xdao7.xdweather.view
 
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
@@ -8,7 +9,7 @@ import androidx.core.content.ContextCompat
 import com.xdao7.xdweather.R
 import com.xdao7.xdweather.utils.dp2px
 
-class RoundProgressBar : BaseScrollAnimtorView {
+class RoundProgressBar : BaseScrollAnimatorView {
 
     /**
      * 圆弧宽度
@@ -46,16 +47,6 @@ class RoundProgressBar : BaseScrollAnimtorView {
     private var animatorAngleSize = 0f
 
     /**
-     * 当前进度
-     */
-    private var currentProgress = 0f
-
-    /**
-     * 动画的执行时长
-     */
-    private var duration = 2000L
-
-    /**
      * 进度圆弧的颜色
      */
     private var progressColor = 0
@@ -73,7 +64,7 @@ class RoundProgressBar : BaseScrollAnimtorView {
     /**
      * 第一行文本的字体大小
      */
-    private var firstTextSize = 56
+    private var firstTextSize = 0
 
     /**
      * 第二行文本
@@ -83,7 +74,7 @@ class RoundProgressBar : BaseScrollAnimtorView {
     /**
      * 第二行文本的字体大小
      */
-    private var secondTextSize = 56
+    private var secondTextSize = 0
 
     /**
      * 进度条最小值
@@ -93,7 +84,7 @@ class RoundProgressBar : BaseScrollAnimtorView {
     /**
      * 最小值字体大小
      */
-    private var minTextSize = 32
+    private var minTextSize = 0
 
     /**
      * 进度最大值
@@ -103,7 +94,7 @@ class RoundProgressBar : BaseScrollAnimtorView {
     /**
      * 最大值字体大小
      */
-    private var maxTextSize = 32
+    private var maxTextSize = 0
 
     private lateinit var rectF: RectF
     private lateinit var pathPaint: Paint
@@ -120,6 +111,7 @@ class RoundProgressBar : BaseScrollAnimtorView {
         initViews(attrs)
     }
 
+    @SuppressLint("Recycle")
     private fun initViews(attrs: AttributeSet?) {
         attrs?.let {
             context.obtainStyledAttributes(it, R.styleable.RoundProgressBar).apply {
@@ -133,12 +125,6 @@ class RoundProgressBar : BaseScrollAnimtorView {
                     context,
                     getDimension(R.styleable.RoundProgressBar_round_stroke_width, 6f)
                 )
-                currentProgress = getFloat(R.styleable.RoundProgressBar_round_progress, 300f)
-                progressColor =
-                    getColor(
-                        R.styleable.RoundProgressBar_round_progress_color,
-                        ContextCompat.getColor(context, R.color.colorAirLevel1)
-                    )
                 firstText =
                     getString(R.styleable.RoundProgressBar_round_first_text).toString()
                 textColor =
@@ -184,6 +170,14 @@ class RoundProgressBar : BaseScrollAnimtorView {
         textPaint = Paint().apply {
             isAntiAlias = true
             textAlign = Paint.Align.CENTER
+        }
+
+        animator = ValueAnimator().apply {
+            this.duration = 2000L
+            addUpdateListener { animator ->
+                animatorAngleSize = animator.animatedValue as Float
+                invalidate()
+            }
         }
     }
 
@@ -318,7 +312,7 @@ class RoundProgressBar : BaseScrollAnimtorView {
         if (progress < 0) {
             throw IllegalArgumentException("Progress value can not be less than 0")
         }
-        currentProgress = if (progress > maxProgress) {
+        val currentProgress = if (progress > maxProgress) {
             maxProgress
         } else {
             progress
@@ -326,6 +320,7 @@ class RoundProgressBar : BaseScrollAnimtorView {
 
         val size = currentProgress / maxProgress
         currentAngleSize = angleSize * size
+
         isNeedAnimator = true
         startAnimator()
     }
@@ -346,14 +341,9 @@ class RoundProgressBar : BaseScrollAnimtorView {
      * 启动动画
      */
     override fun startAnimator() {
-        if (isNeedAnimator) {
-            isNeedAnimator = false
-            ValueAnimator.ofFloat(0f, currentAngleSize).apply {
-                this.duration = this@RoundProgressBar.duration
-                addUpdateListener { animator ->
-                    animatorAngleSize = animator.animatedValue as Float
-                    invalidate()
-                }
+        baseAnimator {
+            animator.apply {
+                setFloatValues(0f, currentAngleSize)
                 start()
             }
         }

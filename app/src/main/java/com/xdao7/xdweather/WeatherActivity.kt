@@ -25,7 +25,7 @@ import com.xdao7.xdweather.logic.model.getSky
 import com.xdao7.xdweather.logic.model.response.qweather.Location
 import com.xdao7.xdweather.ui.weather.WeatherViewModel
 import com.xdao7.xdweather.utils.*
-import com.xdao7.xdweather.view.BaseScrollAnimtorView
+import com.xdao7.xdweather.view.BaseScrollAnimatorView
 
 class WeatherActivity : AppCompatActivity() {
 
@@ -74,7 +74,6 @@ class WeatherActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        destroyViews()
         NetworkUtils.removeNetworkCallback(WeatherActivity::class.java.simpleName)
         super.onDestroy()
     }
@@ -141,13 +140,6 @@ class WeatherActivity : AppCompatActivity() {
         }
     }
 
-    private fun destroyViews() {
-        binding.includeWind.apply {
-            windmillsBig.stopRotate()
-            windmillsSmall.stopRotate()
-        }
-    }
-
     private fun initData() {
         viewModel.apply {
             initData()
@@ -198,7 +190,6 @@ class WeatherActivity : AppCompatActivity() {
                         viewModel.needRefresh = true
                     }
                 }
-
             })
     }
 
@@ -287,8 +278,6 @@ class WeatherActivity : AppCompatActivity() {
             includeWind.apply {
                 textWindDir.text = realtime.windDir
                 textWindScale.text = getString(R.string.str_wind_scale, realtime.windScale)
-                windmillsBig.startRotate()
-                windmillsSmall.startRotate()
             }
 
             includeSunMoon.apply {
@@ -318,7 +307,7 @@ class WeatherActivity : AppCompatActivity() {
         }
     }
 
-    private fun <T : BaseScrollAnimtorView> startAnimator(view: T) {
+    private fun <T : BaseScrollAnimatorView> startAnimator(view: T) {
         view.apply {
             if (getLocalVisibleRect(scrollRect)) {
                 startAnimator()

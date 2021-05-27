@@ -3,7 +3,6 @@ package com.xdao7.xdweather.utils
 import android.content.Context
 import android.net.*
 
-
 class NetworkUtils {
 
     companion object {

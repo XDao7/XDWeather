@@ -43,14 +43,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_wind_title">
 
-            <com.xdao7.xdweather.view.SunAnimtorView
+            <com.xdao7.xdweather.view.SunAnimatorView
                 android:id="@+id/sun"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 app:sun_circle_radius="70" />
 
-            <com.xdao7.xdweather.view.SunAnimtorView
+            <com.xdao7.xdweather.view.SunAnimatorView
                 android:id="@+id/moon"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

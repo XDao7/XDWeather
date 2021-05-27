@@ -1,11 +1,11 @@
 package com.xdao7.xdweather.view
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.*
-import android.os.Handler
-import android.os.Looper
 import android.util.AttributeSet
 import android.view.View
+import android.view.animation.LinearInterpolator
 import androidx.core.content.ContextCompat
 import com.xdao7.xdweather.R
 
@@ -43,12 +43,7 @@ class WindmillsView : View {
      */
     private var color = Color.WHITE
 
-    private var rotateHandler = Handler(Looper.getMainLooper()) {
-        if (it.what == 0) {
-            rotate()
-        }
-        false
-    }
+    private lateinit var animator: ValueAnimator
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -76,6 +71,17 @@ class WindmillsView : View {
             color = this@WindmillsView.color
             style = Paint.Style.FILL
         }
+
+        animator = ValueAnimator().apply {
+            duration = 3600L
+            interpolator = LinearInterpolator()
+            repeatCount = ValueAnimator.INFINITE
+            repeatMode = ValueAnimator.RESTART
+            addUpdateListener { animator ->
+                offsetAngle = animator.animatedValue as Float
+                invalidate()
+            }
+        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -95,6 +101,16 @@ class WindmillsView : View {
         drawPillar(canvas)
     }
 
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        startRotate()
+    }
+
+    override fun onDetachedFromWindow() {
+        stopRotate()
+        super.onDetachedFromWindow()
+    }
+
     /**
      * 画扇叶旋转的中心
      */
@@ -106,7 +122,7 @@ class WindmillsView : View {
      * 画扇叶
      */
     private fun drawWindBlade(canvas: Canvas) {
-        paint.pathEffect = object : CornerPathEffect(15f) {}
+        paint.pathEffect = CornerPathEffect(15f)
         canvas.apply {
             save()
             rotate(offsetAngle, centerX, centerY)
@@ -131,7 +147,7 @@ class WindmillsView : View {
      * 画底部支柱
      */
     private fun drawPillar(canvas: Canvas) {
-        paint.pathEffect = object : CornerPathEffect(5f) {}
+        paint.pathEffect = CornerPathEffect(5f)
         canvas.apply {
             path.apply {
                 reset()
@@ -145,22 +161,18 @@ class WindmillsView : View {
         }
     }
 
-    fun startRotate() {
-        rotateHandler.removeMessages(0)
-        rotateHandler.sendEmptyMessageDelayed(0, 10)
-    }
-
-    fun stopRotate() {
-        rotateHandler.removeMessages(0)
-    }
-
-    private fun rotate() {
-        if (offsetAngle >= 0 && offsetAngle < 360) {
-            offsetAngle += 1f
-        } else {
-            offsetAngle = 1f
+    private fun startRotate() {
+        animator.apply {
+            setFloatValues(0f, 360f)
+            start()
         }
-        invalidate()
-        rotateHandler.sendEmptyMessageDelayed(0, 10)
+    }
+
+    private fun stopRotate() {
+        animator.apply {
+            if (isRunning) {
+                cancel()
+            }
+        }
     }
 }
