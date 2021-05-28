@@ -104,15 +104,14 @@ object Repository {
     private fun <T> fire(
         context: CoroutineContext = Dispatchers.IO,
         block: suspend () -> Result<T>
-    ) =
-        liveData(context) {
-            val result = try {
-                block()
-            } catch (e: Exception) {
-                Result.failure(e)
-            }
-            emit(result)
+    ) = liveData(context) {
+        val result = try {
+            block()
+        } catch (e: Exception) {
+            Result.failure(e)
         }
+        emit(result)
+    }
 
     fun saveCity(city: City) {
         PlaceDao.savePosition(city.position)

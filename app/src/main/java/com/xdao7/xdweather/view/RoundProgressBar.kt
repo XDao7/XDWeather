@@ -5,9 +5,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import androidx.core.content.ContextCompat
 import com.xdao7.xdweather.R
 import com.xdao7.xdweather.utils.dp2px
+import com.xdao7.xdweather.utils.getColor
 
 class RoundProgressBar : BaseScrollAnimatorView {
 
@@ -119,7 +119,7 @@ class RoundProgressBar : BaseScrollAnimatorView {
                 arcBgColor =
                     getColor(
                         R.styleable.RoundProgressBar_round_bg_color,
-                        ContextCompat.getColor(context, R.color.colorPlace)
+                        R.color.colorPlace.getColor()
                     )
                 strokeWidth = dp2px(
                     context,
@@ -130,7 +130,7 @@ class RoundProgressBar : BaseScrollAnimatorView {
                 textColor =
                     getColor(
                         R.styleable.RoundProgressBar_round_text_color,
-                        ContextCompat.getColor(context, R.color.colorDefault)
+                        R.color.colorDefault.getColor()
                     )
                 firstTextSize = dp2px(
                     context,
@@ -160,6 +160,7 @@ class RoundProgressBar : BaseScrollAnimatorView {
 
         rectF = RectF()
         bounds = Rect()
+        progressColor = R.color.colorHumidity.getColor()
         pathPaint = Paint().apply {
             style = Paint.Style.STROKE
             strokeWidth = this@RoundProgressBar.strokeWidth.toFloat()
@@ -325,15 +326,15 @@ class RoundProgressBar : BaseScrollAnimatorView {
         startAnimator()
     }
 
-    fun chooseColor(level: Int = 0) {
-        when (level) {
-            0 -> progressColor = ContextCompat.getColor(context, R.color.colorHumidity)
-            1 -> progressColor = ContextCompat.getColor(context, R.color.colorAirLevel1)
-            2 -> progressColor = ContextCompat.getColor(context, R.color.colorAirLevel2)
-            3 -> progressColor = ContextCompat.getColor(context, R.color.colorAirLevel3)
-            4 -> progressColor = ContextCompat.getColor(context, R.color.colorAirLevel4)
-            5 -> progressColor = ContextCompat.getColor(context, R.color.colorAirLevel5)
-            6 -> progressColor = ContextCompat.getColor(context, R.color.colorAirLevel6)
+    fun chooseColor(level: Int) {
+        progressColor = when (level) {
+            1 -> R.color.colorAirLevel1.getColor()
+            2 -> R.color.colorAirLevel2.getColor()
+            3 -> R.color.colorAirLevel3.getColor()
+            4 -> R.color.colorAirLevel4.getColor()
+            5 -> R.color.colorAirLevel5.getColor()
+            6 -> R.color.colorAirLevel6.getColor()
+            else -> R.color.colorHumidity.getColor()
         }
     }
 

@@ -2,10 +2,8 @@ package com.xdao7.xdweather
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.Rect
 import android.net.Network
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
@@ -48,24 +46,11 @@ class WeatherActivity : AppCompatActivity() {
         binding = ActivityWeatherBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        window.apply {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                decorView.windowInsetsController?.systemBarsBehavior =
-                    WindowInsetsController.BEHAVIOR_SHOW_BARS_BY_SWIPE
-            } else {
-                val option: Int = (View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
-                decorView.systemUiVisibility = option
-            }
-            addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            statusBarColor = Color.TRANSPARENT
-        }
+        setFullScreenMode(window)
 
         DisplayMetrics().apply {
             scrollRect = Rect(0, 0, widthPixels, heightPixels)
         }
-
-        binding.toolbar.setPadding(0, getStatusBarHeight(), 0, 0)
 
         initViews()
         initData()
@@ -102,6 +87,7 @@ class WeatherActivity : AppCompatActivity() {
 
     private fun initViews() {
         binding.apply {
+            toolbar.setPadding(0, getStatusBarHeight(), 0, 0)
             appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
                 srlWeather.isEnabled = verticalOffset >= 0
                 if (verticalOffset < 0) {
@@ -135,6 +121,7 @@ class WeatherActivity : AppCompatActivity() {
             })
             if (!isNetworkAvailable()) {
                 flNetwork.visibility = View.VISIBLE
+                dlHome.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
                 Glide.with(this@WeatherActivity).load(R.drawable.ic_network).into(imgNetwork)
             }
         }
@@ -179,8 +166,11 @@ class WeatherActivity : AppCompatActivity() {
                         if (viewModel.needRefresh) {
                             refreshWeather()
                         }
-                        if (binding.flNetwork.visibility == View.VISIBLE) {
-                            binding.flNetwork.visibility = View.GONE
+                        binding.apply {
+                            if (flNetwork.visibility == View.VISIBLE) {
+                                flNetwork.visibility = View.GONE
+                                dlHome.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                            }
                         }
                     }
                 }
@@ -250,22 +240,21 @@ class WeatherActivity : AppCompatActivity() {
 
             includeAir.apply {
                 roundBarAir.firstText = air.category
-                roundBarAir.secondText = air.aqi.toString()
+                roundBarAir.secondText = air.aqi
                 roundBarAir.chooseColor(air.level)
                 roundBarAir.setProgress(air.aqi.toFloat())
-                pm10.text = air.pm10.toString()
-                pm2p5.text = air.pm2p5.toString()
-                no2.text = air.no2.toString()
-                so2.text = air.so2.toString()
-                co.text = air.co.toString()
-                o3.text = air.o3.toString()
+                pm10.text = air.pm10
+                pm2p5.text = air.pm2p5
+                no2.text = air.no2
+                so2.text = air.so2
+                co.text = air.co
+                o3.text = air.o3
             }
 
             includeLifeIndex.apply {
                 roundBarHumidity.apply {
                     firstText = ""
                     secondText = "${realtime.humidity}%"
-                    chooseColor()
                     setProgress(realtime.humidity.toFloat())
                 }
                 textFeelsLike.text = getString(R.string.str_feels_like, realtime.feelsLike)
@@ -292,7 +281,7 @@ class WeatherActivity : AppCompatActivity() {
     }
 
     private fun sendRefreshCity() {
-        val intent = Intent("com.xdao7.xdweather.refresh.city")
+        val intent = Intent(ACTION_REFRESH_CITY)
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
 

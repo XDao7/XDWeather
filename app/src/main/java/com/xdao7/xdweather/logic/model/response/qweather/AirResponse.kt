@@ -3,14 +3,14 @@ package com.xdao7.xdweather.logic.model.response.qweather
 data class AirResponse(val code: Int, val now: Now) {
 
     data class Now(
-        val aqi: Int,
+        val aqi: String,
         val level: Int,
         val category: String,
-        val pm10: Float,
-        val pm2p5: Float,
-        val no2: Float,
-        val so2: Float,
-        val co: Float,
-        val o3: Float
+        val pm10: String,
+        val pm2p5: String,
+        val no2: String,
+        val so2: String,
+        val co: String,
+        val o3: String
     )
 }

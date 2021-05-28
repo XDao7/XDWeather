@@ -5,7 +5,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 
-open class BaseScrollAnimatorView : View{
+abstract class BaseScrollAnimatorView : View{
 
     var isNeedAnimator = true
     lateinit var animator: ValueAnimator
@@ -39,5 +39,5 @@ open class BaseScrollAnimatorView : View{
         }
     }
 
-    open fun startAnimator() {}
+    abstract fun startAnimator()
 }

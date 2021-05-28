@@ -5,21 +5,16 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import androidx.core.content.ContextCompat
 import com.xdao7.xdweather.R
 import com.xdao7.xdweather.utils.bitmapResize
 import com.xdao7.xdweather.utils.dp2px
+import com.xdao7.xdweather.utils.getColor
 import com.xdao7.xdweather.utils.getCurrentTime
 import java.text.DecimalFormat
 import kotlin.math.cos
 import kotlin.math.sin
 
 class SunAnimatorView : BaseScrollAnimatorView {
-
-    /**
-     * 控件宽度
-     */
-    private var viewWidth = 0
 
     /**
      * 顶部的间隔
@@ -84,14 +79,16 @@ class SunAnimatorView : BaseScrollAnimatorView {
             context.obtainStyledAttributes(it, R.styleable.SunAnimatorView).apply {
                 circleColor = getColor(
                     R.styleable.SunAnimatorView_sun_circle_color,
-                    ContextCompat.getColor(context, R.color.colorDefault)
+                    R.color.colorDefault.getColor()
                 )
                 fontColor = getColor(
                     R.styleable.SunAnimatorView_sun_font_color,
-                    ContextCompat.getColor(context, R.color.colorDefault)
+                    R.color.colorDefault.getColor()
                 )
-                radius =
-                    dp2px(context, getInteger(R.styleable.SunAnimatorView_sun_circle_radius, 10).toFloat())
+                radius = dp2px(
+                    context,
+                    getInteger(R.styleable.SunAnimatorView_sun_circle_radius, 10).toFloat()
+                )
                 fontSize = getDimension(R.styleable.SunAnimatorView_sun_font_size, 12f)
                 fontSize = dp2px(context, fontSize).toFloat()
                 isSun = getBoolean(R.styleable.SunAnimatorView_type, true)
@@ -117,14 +114,14 @@ class SunAnimatorView : BaseScrollAnimatorView {
         timePaint = Paint().apply {
             style = Paint.Style.FILL
             isAntiAlias = true
-            color = ContextCompat.getColor(context, R.color.black)
+            color = R.color.black.getColor()
             textSize = fontSize
             textAlign = Paint.Align.CENTER
         }
 
         pathPaint = Paint().apply {
             isAntiAlias = true
-            color = ContextCompat.getColor(context, R.color.black)
+            color = R.color.black.getColor()
             isDither = true
             color = circleColor
             style = Paint.Style.STROKE
@@ -152,17 +149,16 @@ class SunAnimatorView : BaseScrollAnimatorView {
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        viewWidth = measuredWidth
-        positionX = viewWidth / 2 - radius - iconWidth / 2
+        positionX = measuredWidth / 2 - radius - iconWidth / 2
         positionY = radius + marginTop - iconWidth / 2
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(
             changed,
-            viewWidth / 2 - radius,
+            measuredWidth / 2 - radius,
             marginTop,
-            viewWidth / 2 + radius,
+            measuredWidth / 2 + radius,
             radius * 2 + marginTop
         )
     }
@@ -179,17 +175,17 @@ class SunAnimatorView : BaseScrollAnimatorView {
      */
     private fun drawSemicircle(canvas: Canvas) {
         rectF = RectF(
-            (viewWidth / 2 - radius).toFloat(),
+            (measuredWidth / 2 - radius).toFloat(),
             marginTop.toFloat(),
-            (viewWidth / 2 + radius).toFloat(),
+            (measuredWidth / 2 + radius).toFloat(),
             (radius * 2 + marginTop).toFloat()
         )
         canvas.apply {
             drawArc(rectF, 180f, 180f, false, pathPaint)
             drawLine(
-                viewWidth / 2 - radius - 18f,
+                measuredWidth / 2 - radius - 18f,
                 (radius + marginTop).toFloat(),
-                viewWidth / 2 + radius + 18f,
+                measuredWidth / 2 + radius + 18f,
                 (radius + marginTop).toFloat(),
                 timePaint
             )
@@ -226,25 +222,25 @@ class SunAnimatorView : BaseScrollAnimatorView {
         canvas.apply {
             drawText(
                 rise,
-                (viewWidth / 2 - radius + dp2px(context, 8f)).toFloat(),
+                (measuredWidth / 2 - radius + dp2px(context, 8f)).toFloat(),
                 (radius + dp2px(context, 16f) + marginTop).toFloat(),
                 textPaint
             )
             drawText(
                 startTime,
-                (viewWidth / 2 - radius + dp2px(context, 8f)).toFloat(),
+                (measuredWidth / 2 - radius + dp2px(context, 8f)).toFloat(),
                 (radius + dp2px(context, 32f) + marginTop).toFloat(),
                 timePaint
             )
             drawText(
                 set,
-                (viewWidth / 2 + radius - dp2px(context, 8f)).toFloat(),
+                (measuredWidth / 2 + radius - dp2px(context, 8f)).toFloat(),
                 (radius + dp2px(context, 16f) + marginTop).toFloat(),
                 textPaint
             )
             drawText(
                 endTime,
-                (viewWidth / 2 + radius - dp2px(context, 8f)).toFloat(),
+                (measuredWidth / 2 + radius - dp2px(context, 8f)).toFloat(),
                 (radius + dp2px(context, 32f) + marginTop).toFloat(),
                 timePaint
             )
@@ -347,7 +343,7 @@ class SunAnimatorView : BaseScrollAnimatorView {
      */
     private fun invalidateView() {
         positionX =
-            (viewWidth / 2 - (radius * cos((animatorAngle) * Math.PI / 180)) - iconWidth / 2).toFloat()
+            (measuredWidth / 2 - (radius * cos((animatorAngle) * Math.PI / 180)) - iconWidth / 2).toFloat()
         positionY =
             (radius + marginTop - (radius * sin((animatorAngle) * Math.PI / 180)) + -iconWidth / 2).toFloat()
         invalidate()

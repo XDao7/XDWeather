@@ -44,6 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/str_pm10"
+            android:textColor="@color/colorDefault"
             app:layout_constraintBottom_toBottomOf="@id/pm10"
             app:layout_constraintEnd_toStartOf="@id/pm10"
             app:layout_constraintHorizontal_chainStyle="packed"
@@ -66,6 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/str_pm2p5"
+            android:textColor="@color/colorDefault"
             app:layout_constraintBottom_toBottomOf="@id/pm2p5"
             app:layout_constraintStart_toStartOf="@id/title_pm10"
             app:layout_constraintTop_toTopOf="@id/pm2p5" />
@@ -84,6 +86,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/str_no2"
+            android:textColor="@color/colorDefault"
             app:layout_constraintBottom_toBottomOf="@id/no2"
             app:layout_constraintStart_toStartOf="@id/title_pm10"
             app:layout_constraintTop_toTopOf="@id/no2" />
@@ -102,6 +105,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/str_so2"
+            android:textColor="@color/colorDefault"
             app:layout_constraintBottom_toBottomOf="@id/so2"
             app:layout_constraintStart_toStartOf="@id/title_pm10"
             app:layout_constraintTop_toTopOf="@id/so2" />
@@ -120,6 +124,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/str_co"
+            android:textColor="@color/colorDefault"
             app:layout_constraintBottom_toBottomOf="@id/co"
             app:layout_constraintStart_toStartOf="@id/title_pm10"
             app:layout_constraintTop_toTopOf="@id/co" />
@@ -138,6 +143,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/str_o3"
+            android:textColor="@color/colorDefault"
             app:layout_constraintBottom_toBottomOf="@id/o3"
             app:layout_constraintStart_toStartOf="@id/title_pm10"
             app:layout_constraintTop_toTopOf="@id/o3" />

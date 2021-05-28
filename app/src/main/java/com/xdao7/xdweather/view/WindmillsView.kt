@@ -6,8 +6,8 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.LinearInterpolator
-import androidx.core.content.ContextCompat
 import com.xdao7.xdweather.R
+import com.xdao7.xdweather.utils.getColor
 
 class WindmillsView : View {
 
@@ -60,7 +60,7 @@ class WindmillsView : View {
             context.obtainStyledAttributes(it, R.styleable.WindmillsView).apply {
                 color = getColor(
                     R.styleable.WindmillsView_windColor,
-                    ContextCompat.getColor(context, R.color.colorWindmills)
+                    R.color.colorWindmills.getColor()
                 )
                 recycle()
             }

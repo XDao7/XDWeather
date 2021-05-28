@@ -4,10 +4,13 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.Matrix
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
@@ -30,7 +33,7 @@ fun View.showSnackbar(
     block: (() -> Unit)? = null
 ) {
     val snackbar = Snackbar.make(this, text, duration)
-    snackbar.setActionTextColor(ContextCompat.getColor(XDWeatherApplication.context, R.color.colorCity5))
+    snackbar.setActionTextColor(R.color.colorCity5.getColor())
     if (actionText != null && block != null) {
         snackbar.setAction(actionText) {
             block()
@@ -46,7 +49,7 @@ fun View.showSnackbar(
     block: (() -> Unit)? = null
 ) {
     val snackbar = Snackbar.make(this, resId, duration)
-    snackbar.setActionTextColor(ContextCompat.getColor(XDWeatherApplication.context, R.color.colorCity5))
+    snackbar.setActionTextColor(R.color.colorCity5.getColor())
     if (actionResId != null && block != null) {
         snackbar.setAction(actionResId) {
             block()
@@ -54,6 +57,8 @@ fun View.showSnackbar(
     }
     snackbar.show()
 }
+
+fun Int.getColor(): Int = ContextCompat.getColor(XDWeatherApplication.context, this)
 
 inline fun <reified T> startActivity(context: Context, block: Intent.() -> Unit) {
     val intent = Intent(context, T::class.java)
@@ -69,6 +74,15 @@ inline fun <reified T> startActivityForResult(
     val intent = Intent(activity, T::class.java)
     intent.block()
     activity.startActivityForResult(intent, requestCode)
+}
+
+fun setFullScreenMode(window: Window) {
+    window.apply {
+        decorView.systemUiVisibility =
+            (View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
+        addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        statusBarColor = Color.TRANSPARENT
+    }
 }
 
 fun isNetworkAvailable(): Boolean {
@@ -95,7 +109,7 @@ fun getCurrentTime(): String {
     return "${calender.get(Calendar.HOUR_OF_DAY)}:${calender.get(Calendar.MINUTE)}"
 }
 
-fun getWeek() = when(Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
+fun getWeek() = when (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
     1 -> R.string.str_day_of_week_1
     2 -> R.string.str_day_of_week_2
     3 -> R.string.str_day_of_week_3
@@ -108,7 +122,11 @@ fun getWeek() = when(Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
 
 fun getStatusBarHeight(): Int {
     var statusBarHeight = 0
-    val resourceId = XDWeatherApplication.context.resources.getIdentifier("status_bar_height", "dimen", "android")
+    val resourceId = XDWeatherApplication.context.resources.getIdentifier(
+        "status_bar_height",
+        "dimen",
+        "android"
+    )
     if (resourceId > 0) {
         statusBarHeight = XDWeatherApplication.context.resources.getDimensionPixelSize(resourceId)
     }

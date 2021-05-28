@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.xdao7.xdweather.R
 import com.xdao7.xdweather.WeatherActivity
 import com.xdao7.xdweather.databinding.FragmentCityBinding
+import com.xdao7.xdweather.utils.ACTION_REFRESH_CITY
 import com.xdao7.xdweather.utils.getStatusBarHeight
 
 class CityFragment : Fragment() {
@@ -22,6 +23,7 @@ class CityFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var adapter: CityAdapter
+    private lateinit var cityReceiver: CityReceiver
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,11 +40,22 @@ class CityFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         val filter = IntentFilter().apply {
-            addAction("com.xdao7.xdweather.refresh.city")
+            addAction(ACTION_REFRESH_CITY)
         }
-        val cityReceiver = CityReceiver()
+        cityReceiver = CityReceiver()
         context?.let { LocalBroadcastManager.getInstance(it).registerReceiver(cityReceiver, filter) }
         initViews()
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onDestroy() {
+        context?.let { LocalBroadcastManager.getInstance(it).unregisterReceiver(cityReceiver) }
+        super.onDestroy()
     }
 
     private fun initViews() {
@@ -61,11 +74,6 @@ class CityFragment : Fragment() {
             adapter.cityList = activity.viewModel.city
             adapter.notifyDataSetChanged()
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     inner class CityReceiver : BroadcastReceiver() {

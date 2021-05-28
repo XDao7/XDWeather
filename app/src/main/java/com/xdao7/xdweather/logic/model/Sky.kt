@@ -2,7 +2,7 @@ package com.xdao7.xdweather.logic.model
 
 import com.xdao7.xdweather.R
 
-class Sky(val smallIcon: Int, val bg: Int, val info: String,)
+class Sky(val smallIcon: Int, val bg: Int, val info: String)
 
 private val sky = mapOf(
     100 to Sky(R.drawable.ic_weather_1,  R.drawable.bg_clear_day,           "晴"),

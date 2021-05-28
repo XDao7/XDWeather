@@ -16,9 +16,11 @@ class CityAdapter(
     var cityList: City
 ) : RecyclerView.Adapter<CityAdapter.ViewHolder>() {
 
-    private val TYPE_CITY = 0
-    private val TYPE_ADD = 1
-    private val TYPE_DELETE = 2
+    companion object {
+        private const val TYPE_CITY = 0
+        private const val TYPE_ADD = 1
+        private const val TYPE_DELETE = 2
+    }
 
     inner class ViewHolder(binding: ItemCityBinding) : RecyclerView.ViewHolder(binding.root) {
         val root = binding.root
