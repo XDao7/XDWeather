@@ -114,17 +114,10 @@ object Repository {
     }
 
     fun saveCity(city: City) {
-        PlaceDao.savePosition(city.position)
         PlaceDao.saveLocations(city.locations)
     }
-
-    fun savePosition(position: Int) = PlaceDao.savePosition(position)
 
     fun getLocations() = PlaceDao.getLocations()
 
     fun isLocationsSaved() = PlaceDao.isLocationsSaved()
-
-    fun getPosition() = PlaceDao.getPosition()
-
-    fun isPositionSaved() = PlaceDao.isPositionSaved()
 }

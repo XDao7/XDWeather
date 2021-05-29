@@ -11,8 +11,10 @@ import android.net.NetworkCapabilities
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.xdao7.xdweather.R
 import com.xdao7.xdweather.XDWeatherApplication
@@ -59,6 +61,10 @@ fun View.showSnackbar(
 }
 
 fun Int.getColor(): Int = ContextCompat.getColor(XDWeatherApplication.context, this)
+
+fun ImageView.loadResources(resourceId: Int) {
+    Glide.with(this.context).load(resourceId).into(this)
+}
 
 inline fun <reified T> startActivity(context: Context, block: Intent.() -> Unit) {
     val intent = Intent(context, T::class.java)

@@ -2,6 +2,11 @@
     <string name="app_name">XDWeather</string>
 
     <string name="str_author">XDao7</string>
+    
+    <string name="str_location_permissions_denied">定位权限不可用</string>
+    <string name="str_location_fail">定位失败</string>
+    <string name="str_location_search_fail">未定位到相关地点</string>
+    
     <string name="str_hint_search_place">搜索城市（中文/拼音）</string>
     <string name="str_btn_search">搜索</string>
     <string name="str_no_search">未能查询到任何地点</string>

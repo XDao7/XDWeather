@@ -20,6 +20,7 @@ class CityAdapter(
         private const val TYPE_CITY = 0
         private const val TYPE_ADD = 1
         private const val TYPE_DELETE = 2
+        private const val TYPE_LOCATION = 3
     }
 
     inner class ViewHolder(binding: ItemCityBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -41,78 +42,79 @@ class CityAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val activity = fragment.activity as WeatherActivity
-        holder.root.setCardBackgroundColor(colors[position])
-        if (position > cityList.locations.size - 1 || cityList.position < 0) {
-            holder.apply {
+        holder.apply {
+            root.setCardBackgroundColor(colors[position])
+            if (position > cityList.locations.size - 1 || cityList.position < 0) {
                 groupWeather.visibility = View.GONE
                 imgChoose.visibility = View.GONE
                 imgTool.visibility = View.VISIBLE
                 imgTool.setImageResource(R.drawable.ic_add)
                 viewMask.visibility = View.GONE
                 type = TYPE_ADD
-            }
-        } else {
-            val location = cityList.locations[position]
-            holder.apply {
+            } else {
+                val location = cityList.locations[position]
                 groupWeather.visibility = View.VISIBLE
                 imgChoose.visibility = View.VISIBLE
                 imgTool.visibility = View.GONE
                 viewMask.visibility = View.GONE
-                type = TYPE_CITY
                 textCity.text = location.name
+                if (location.isCurrentLocation) {
+                    type = TYPE_LOCATION
+                    imgChoose.visibility = View.VISIBLE
+                } else {
+                    type = TYPE_CITY
+                    imgChoose.visibility = View.GONE
+                }
 
                 if (cityList.info.size > 0) {
                     val info = cityList.info[position]
                     textTemp.text = fragment.getString(R.string.str_temp, info.temp)
                     textSky.text = info.text
                 }
-
-                if (position == cityList.position) {
-                    imgChoose.visibility = View.VISIBLE
-                } else {
-                    imgChoose.visibility = View.GONE
+            }
+            imgTool.setOnClickListener {
+                when (holder.type) {
+                    TYPE_ADD -> {
+                        SearchActivity.actionStart(
+                            activity,
+                            WeatherActivity.SEARCH_PLACE_REQUEST_CODE
+                        )
+                    }
+                    TYPE_DELETE -> {
+                        activity.viewModel.deleteCity(position)
+                        notifyItemRemoved(holder.adapterPosition)
+                        notifyItemRangeChanged(position, itemCount - position)
+                    }
                 }
             }
-        }
-        holder.imgTool.setOnClickListener {
-            when (holder.type) {
-                TYPE_ADD -> {
-                    SearchActivity.actionStart(activity, WeatherActivity.SEARCH_PLACE_REQUEST_CODE)
-                }
-                TYPE_DELETE -> {
-                    activity.viewModel.deleteCity(position)
-                    notifyItemRemoved(holder.adapterPosition)
-                    notifyItemRangeChanged(position, itemCount - position)
-                }
-            }
-        }
-        holder.viewMask.setOnClickListener {
-            holder.apply {
-                viewMask.visibility = View.GONE
-                imgTool.visibility = View.GONE
-                type = TYPE_CITY
-            }
-        }
-        holder.root.setOnClickListener {
-            if (holder.type == TYPE_CITY) {
-                activity.apply {
-                    viewModel.savePosition(position)
-                    binding.dlHome.closeDrawers()
-                    refreshWeather()
-                }
-            }
-        }
-        holder.root.setOnLongClickListener {
-            if (holder.type == TYPE_CITY) {
+            viewMask.setOnClickListener {
                 holder.apply {
-                    viewMask.visibility = View.VISIBLE
-                    imgTool.visibility = View.VISIBLE
-                    imgTool.setImageResource(R.drawable.ic_delete)
-                    type = TYPE_DELETE
+                    viewMask.visibility = View.GONE
+                    imgTool.visibility = View.GONE
+                    type = TYPE_CITY
                 }
-                true
-            } else {
-                false
+            }
+            root.setOnClickListener {
+                if (holder.type == TYPE_CITY || holder.type == TYPE_LOCATION) {
+                    activity.apply {
+                        viewModel.savePosition(position)
+                        binding.dlHome.closeDrawers()
+                        refreshWeather()
+                    }
+                }
+            }
+            root.setOnLongClickListener {
+                if (holder.type == TYPE_CITY) {
+                    holder.apply {
+                        viewMask.visibility = View.VISIBLE
+                        imgTool.visibility = View.VISIBLE
+                        imgTool.setImageResource(R.drawable.ic_delete)
+                        type = TYPE_DELETE
+                    }
+                    true
+                } else {
+                    false
+                }
             }
         }
     }
@@ -120,9 +122,21 @@ class CityAdapter(
     override fun getItemCount(): Int {
         var size = cityList.locations.size
         if (cityList.position < 0) {
+            //无保存城市，并且定位失败
             size = 1
-        } else if (size < 5) {
+        } else {
             size += 1
+            if (cityList.locations[0].isCurrentLocation) {
+                //如果城市列表含有定位地点，则最多允许五项
+                if (size > 5) {
+                    size = 5
+                }
+            } else {
+                //如果城市列表没有定位地点，则最多允许四项
+                if (size > 4) {
+                    size = 4
+                }
+            }
         }
         return size
     }

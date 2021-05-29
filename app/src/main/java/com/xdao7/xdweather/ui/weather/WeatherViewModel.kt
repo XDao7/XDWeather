@@ -7,53 +7,107 @@ import com.xdao7.xdweather.logic.Repository
 import com.xdao7.xdweather.logic.model.City
 import com.xdao7.xdweather.logic.model.response.qweather.Location
 import com.xdao7.xdweather.logic.model.response.qweather.RealtimeResponse
+import com.xdao7.xdweather.utils.LocationUtils
 
 class WeatherViewModel : ViewModel() {
 
     private val cityLiveData = MutableLiveData<City>()
-    private val locationLiveData = MutableLiveData<Location>()
+    private val capitalLiveData = MutableLiveData<Location>()
+    private val searchLiveData = MutableLiveData<String>()
 
     val city = City()
 
     var needRefresh = false
 
-    lateinit var location: Location
+    val capital: Location = Location("北京", "101010100", 39.90498f, 116.40528f, "北京", "北京市", "中国")
 
     val weatherLiveData = Transformations.switchMap(cityLiveData) { city ->
         Repository.refreshWeather(city)
     }
-    val defaultLiveData = Transformations.switchMap(locationLiveData) { location ->
+    val defaultLiveData = Transformations.switchMap(capitalLiveData) { location ->
         Repository.refreshWeather(location)
     }
+    val locationLiveData = Transformations.switchMap(searchLiveData) { query ->
+        Repository.searchPlaces(query)
+    }
 
+    /**
+     * 刷新定位
+     *
+     * @param block 无法获取定位后需要执行的方法
+     */
+    fun refreshLocation(block: () -> Unit) {
+        LocationUtils.getLocation { location ->
+            if (location != null) {
+                searchLocation("${location.longitude},${location.latitude}")
+            } else {
+                block()
+            }
+        }
+    }
+
+    /**
+     * 刷新天气数据
+     */
     fun refreshWeather() {
         needRefresh = false
-        if (city.position >= 0) {
-            if (!city.isInit) {
-                initData()
-            }
+        if (city.locations.isNotEmpty()) {
             cityLiveData.value = city
         } else {
-            locationLiveData.value = location
+            capitalLiveData.value = capital
         }
     }
 
+    /**
+     * 根据定位查询城市
+     */
+    private fun searchLocation(query: String) {
+        searchLiveData.postValue(query)
+    }
+
+    /**
+     * 获取保存的城市信息
+     */
     fun initData() {
-        if (isPositionSaved() && !city.isInit) {
-            city.position = getPosition()
-            city.locations = getLocations()
-            city.isInit = true
+        if (isLocationSaved()) {
+            val saveLocations = getLocations()
+            if (saveLocations.isNotEmpty()) {
+                city.position = 0
+                city.locations.addAll(getLocations())
+            }
         }
-        location = Location("北京", "101010100", 39.90498f, 116.40528f, "北京", "北京市", "中国")
     }
 
+    /**
+     * 添加定位城市
+     */
+    fun addLocation(location: Location) {
+        city.apply {
+            location.isCurrentLocation = true
+            locations.apply {
+                if (isNotEmpty() && this[0].isCurrentLocation) {
+                    locations.removeAt(0)
+                } else if (position > 0) {
+                    position += 1
+                } else {
+                    position = 0
+                }
+                add(0, location)
+            }
+        }
+    }
+
+    /**
+     * 手动添加城市
+     */
     fun addCity(location: Location) {
         city.apply {
-            if (position < 0) {
-                locations.clear()
-                info.clear()
+            val size = if (locations.isNotEmpty() && locations[0].isCurrentLocation) {
+                5
+            } else {
+                4
             }
-            if (locations.size < 5) {
+            if (locations.size < size) {
                 for (i in locations.indices) {
                     if (locations[i].id == location.id) {
                         position = i
@@ -64,13 +118,13 @@ class WeatherViewModel : ViewModel() {
                 locations.add(location)
                 position = locations.size - 1
             }
-            if (!isInit) {
-                isInit = true
-            }
             saveCity()
         }
     }
 
+    /**
+     * 删除城市
+     */
     fun deleteCity(position: Int) {
         city.apply {
             locations.removeAt(position)
@@ -89,23 +143,33 @@ class WeatherViewModel : ViewModel() {
         }
     }
 
+    /**
+     * 更新城市天气数据
+     */
     fun updateCityInfo(info: ArrayList<RealtimeResponse.Now>) {
-        city.info = info
+        city.apply {
+            if (position < 0) {
+                position = 0
+            }
+            this.info = info
+        }
     }
 
+    /**
+     * 保存城市列表
+     */
     private fun saveCity() {
-        city.isInit = false
         Repository.saveCity(city)
     }
 
+    /**
+     * 记录当前选中的城市
+     */
     fun savePosition(position: Int) {
         city.position = position
-        Repository.savePosition(position)
     }
-
-    private fun isPositionSaved() = Repository.isPositionSaved()
 
     private fun getLocations() = Repository.getLocations()
 
-    private fun getPosition() = Repository.getPosition()
+    private fun isLocationSaved() = Repository.isLocationsSaved()
 }

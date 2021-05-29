@@ -12,8 +12,16 @@ object PlaceDao {
     private fun sharePreferences() = XDWeatherApplication.context.getSharedPreferences("xd_weather", Context.MODE_PRIVATE)
 
     fun saveLocations(locations: ArrayList<Location>) {
+        val saveLocations: ArrayList<Location> = ArrayList()
+        if (locations.isNotEmpty() && locations[0].isCurrentLocation) {
+            for (i in 1 until locations.size) {
+                saveLocations.add(locations[i])
+            }
+        } else {
+            saveLocations.addAll(locations)
+        }
         sharePreferences().edit {
-            putString("locations", Gson().toJson(locations))
+            putString("locations", Gson().toJson(saveLocations))
         }
     }
 
@@ -23,23 +31,4 @@ object PlaceDao {
     }
 
     fun isLocationsSaved() = sharePreferences().contains("locations")
-
-    fun savePosition(position: Int) {
-        sharePreferences().edit {
-            putInt("position", position)
-        }
-    }
-
-    fun getPosition(): Int {
-        return sharePreferences().getInt("position", 0)
-    }
-
-    fun isPositionSaved(): Boolean {
-        return if (sharePreferences().contains("position")) {
-            getPosition() >= 0
-        } else {
-            false
-        }
-
-    }
 }

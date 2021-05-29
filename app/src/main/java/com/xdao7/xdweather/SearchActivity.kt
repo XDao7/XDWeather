@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.xdao7.xdweather.databinding.ActivitySearchBinding
 import com.xdao7.xdweather.logic.model.response.qweather.Location
+import com.xdao7.xdweather.utils.INTENT_PLACE
 import com.xdao7.xdweather.utils.setFullScreenMode
 import com.xdao7.xdweather.utils.startActivityForResult
 
@@ -31,7 +32,7 @@ class SearchActivity : AppCompatActivity() {
 
     fun addCity(place: Location) {
         val intent = Intent().apply {
-            putExtra("place", place)
+            putExtra(INTENT_PLACE, place)
         }
         setResult(RESULT_OK, intent)
         finish()

@@ -9,4 +9,6 @@ data class PlaceResponse(val code: Int, val location: List<Location>)
 data class Location(
     val name: String, val id: String, val lat: Float, val lon: Float,
     val adm2: String, val adm1: String, val country: String
-) : Parcelable
+) : Parcelable {
+    var isCurrentLocation = false
+}

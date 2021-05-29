@@ -14,7 +14,6 @@ import androidx.core.widget.NestedScrollView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
 import com.xdao7.xdweather.databinding.ActivityWeatherBinding
 import com.xdao7.xdweather.databinding.ItemForecastBinding
@@ -28,8 +27,10 @@ import com.xdao7.xdweather.view.BaseScrollAnimatorView
 class WeatherActivity : AppCompatActivity() {
 
     companion object {
-        fun actionStart(context: Context) {
-            startActivity<WeatherActivity>(context) {}
+        fun actionStart(context: Context, locationPermission: Boolean) {
+            startActivity<WeatherActivity>(context) {
+                putExtra(INTENT_LOCATION_PERMISSION, locationPermission)
+            }
         }
 
         const val SEARCH_PLACE_REQUEST_CODE = 0
@@ -38,6 +39,7 @@ class WeatherActivity : AppCompatActivity() {
     lateinit var binding: ActivityWeatherBinding
 
     private lateinit var scrollRect: Rect
+    private var locationPermission = false
 
     val viewModel by lazy { ViewModelProvider(this).get(WeatherViewModel::class.java) }
 
@@ -52,10 +54,11 @@ class WeatherActivity : AppCompatActivity() {
             scrollRect = Rect(0, 0, widthPixels, heightPixels)
         }
 
-        initViews()
+        locationPermission = intent.getBooleanExtra(INTENT_LOCATION_PERMISSION, false)
+
         initData()
         initListener()
-        refreshWeather()
+        initViews()
     }
 
     override fun onDestroy() {
@@ -68,7 +71,7 @@ class WeatherActivity : AppCompatActivity() {
             if (binding.dlHome.isDrawerOpen(GravityCompat.START)) {
                 binding.dlHome.closeDrawers()
             }
-            val location: Location? = data?.getParcelableExtra("place")
+            val location: Location? = data?.getParcelableExtra(INTENT_PLACE)
             if (location != null) {
                 viewModel.addCity(location)
                 refreshWeather()
@@ -82,48 +85,6 @@ class WeatherActivity : AppCompatActivity() {
             binding.dlHome.closeDrawers()
         } else {
             super.onBackPressed()
-        }
-    }
-
-    private fun initViews() {
-        binding.apply {
-            toolbar.setPadding(0, getStatusBarHeight(), 0, 0)
-            appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
-                srlWeather.isEnabled = verticalOffset >= 0
-                if (verticalOffset < 0) {
-                    loadViewAnimator()
-                }
-            })
-            btnCity.setOnClickListener {
-                dlHome.openDrawer(GravityCompat.START)
-            }
-            dlHome.addDrawerListener(object : DrawerLayout.DrawerListener {
-                override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
-
-                override fun onDrawerOpened(drawerView: View) {}
-
-                override fun onDrawerClosed(drawerView: View) {
-                    if (viewModel.needRefresh && isNetworkAvailable()) {
-                        refreshWeather()
-                    }
-                }
-
-                override fun onDrawerStateChanged(newState: Int) {}
-            })
-            srlWeather.apply {
-                setColorSchemeResources(R.color.colorBlue)
-                setOnRefreshListener {
-                    refreshWeather()
-                }
-            }
-            svWeather.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, _, _, _ ->
-                loadViewAnimator()
-            })
-            if (!isNetworkAvailable()) {
-                flNetwork.visibility = View.VISIBLE
-                dlHome.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-                Glide.with(this@WeatherActivity).load(R.drawable.ic_network).into(imgNetwork)
-            }
         }
     }
 
@@ -154,6 +115,17 @@ class WeatherActivity : AppCompatActivity() {
                 }
                 binding.srlWeather.isRefreshing = false
             }
+            locationLiveData.observe(this@WeatherActivity) { result ->
+                val locations = result.getOrNull()
+                if (locations != null && locations.isNotEmpty()) {
+                    viewModel.addLocation(locations[0])
+                } else {
+                    R.string.str_location_search_fail.showToast()
+                    result.exceptionOrNull()?.printStackTrace()
+                }
+                hideCreateTip()
+                refreshWeather()
+            }
         }
     }
 
@@ -163,14 +135,18 @@ class WeatherActivity : AppCompatActivity() {
             object : NetworkUtils.IConnectivityCallback {
                 override fun onAvailable(network: Network?) {
                     runOnUiThread {
-                        if (viewModel.needRefresh) {
-                            refreshWeather()
-                        }
                         binding.apply {
                             if (flNetwork.visibility == View.VISIBLE) {
-                                flNetwork.visibility = View.GONE
-                                dlHome.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                                if (locationPermission) {
+                                    imageTip.loadResources(R.drawable.ic_location)
+                                    refreshLocation()
+                                } else {
+                                    hideCreateTip()
+                                }
                             }
+                        }
+                        if (viewModel.needRefresh) {
+                            refreshWeather()
                         }
                     }
                 }
@@ -183,22 +159,95 @@ class WeatherActivity : AppCompatActivity() {
             })
     }
 
-    fun refreshWeather() {
-        if (!isNetworkAvailable()) {
-            binding.srlWeather.showSnackbar(
-                R.string.str_network_disconnected,
-                R.string.str_network_setting
-            ) {
-                startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS))
+    private fun initViews() {
+        binding.apply {
+            toolbar.setPadding(0, getStatusBarHeight(), 0, 0)
+            appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
+                srlWeather.isEnabled = verticalOffset >= 0
+                if (verticalOffset < 0) {
+                    loadViewAnimator()
+                }
+            })
+            btnCity.setOnClickListener {
+                dlHome.openDrawer(GravityCompat.START)
             }
-            binding.srlWeather.isRefreshing = false
-            viewModel.needRefresh = true
-        } else {
-            viewModel.refreshWeather()
-            binding.srlWeather.isRefreshing = true
+            dlHome.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+            dlHome.addDrawerListener(object : DrawerLayout.DrawerListener {
+                override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
+
+                override fun onDrawerOpened(drawerView: View) {}
+
+                override fun onDrawerClosed(drawerView: View) {
+                    if (viewModel.needRefresh && isNetworkAvailable()) {
+                        refreshWeather()
+                    }
+                }
+
+                override fun onDrawerStateChanged(newState: Int) {}
+            })
+            srlWeather.apply {
+                setColorSchemeResources(R.color.colorBlue)
+                setOnRefreshListener {
+                    if (locationPermission) {
+                        refreshLocation()
+                    } else {
+                        refreshWeather()
+                    }
+                }
+            }
+            svWeather.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, _, _, _ ->
+                loadViewAnimator()
+            })
+            if (isNetworkAvailable()) {
+                if (locationPermission) {
+                    imageTip.loadResources(R.drawable.ic_location)
+                    refreshLocation()
+                } else {
+                    refreshWeather()
+                }
+            } else {
+                imageTip.loadResources(R.drawable.ic_network)
+                showNoNetwork()
+            }
         }
     }
 
+    /**
+     * 刷新定位
+     */
+    fun refreshLocation() {
+        binding.srlWeather.isRefreshing = true
+        if (isNetworkAvailable()) {
+            viewModel.apply {
+                needRefresh = false
+                refreshLocation {
+                    runOnUiThread {
+                        R.string.str_location_fail.showToast()
+                        refreshWeather()
+                    }
+                }
+            }
+        } else {
+            showNoNetwork()
+        }
+    }
+
+    /**
+     * 刷新天气，在不需要刷新定位情况下使用
+     */
+    fun refreshWeather() {
+        if (isNetworkAvailable()) {
+            viewModel.refreshWeather()
+            binding.srlWeather.isRefreshing = true
+        } else {
+            showNoNetwork()
+            binding.srlWeather.isRefreshing = false
+        }
+    }
+
+    /**
+     * 展示天气
+     */
     private fun showWeatherInfo(weather: Weather) {
         val realtime = weather.realtime
         val daily = weather.daily
@@ -207,7 +256,7 @@ class WeatherActivity : AppCompatActivity() {
 
         binding.apply {
             textPlaceName.text = if (viewModel.city.position < 0) {
-                viewModel.location.name
+                viewModel.capital.name
             } else {
                 viewModel.city.locations[viewModel.city.position].name
             }
@@ -280,11 +329,44 @@ class WeatherActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * 发送城市列表更新广播
+     */
     private fun sendRefreshCity() {
         val intent = Intent(ACTION_REFRESH_CITY)
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
 
+    /**
+     * 提示无网络链接
+     */
+    private fun showNoNetwork() {
+        viewModel.needRefresh = true
+        binding.srlWeather.showSnackbar(
+            R.string.str_network_disconnected,
+            R.string.str_network_setting
+        ) {
+            startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS))
+        }
+    }
+
+    /**
+     * 隐藏提示UI（无网络、定位中）
+     *
+     * @param block 隐藏提示UI后额外需要执行的方法
+     */
+    private fun hideCreateTip() {
+        binding.apply {
+            if (flNetwork.visibility == View.VISIBLE) {
+                flNetwork.visibility = View.GONE
+                dlHome.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+            }
+        }
+    }
+
+    /**
+     * 指定动画UI
+     */
     private fun loadViewAnimator() {
         binding.apply {
             startAnimator(includeAir.roundBarAir)
@@ -296,6 +378,9 @@ class WeatherActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * 启动动画
+     */
     private fun <T : BaseScrollAnimatorView> startAnimator(view: T) {
         view.apply {
             if (getLocalVisibleRect(scrollRect)) {
