@@ -275,7 +275,7 @@ class SunAnimatorView : BaseScrollAnimatorView {
 
         val totalMinute = calculateTime(startHour, startMin, endHour, endMin, false)
         val needMinute =
-            if (isSun && (currentHour > endHour || (currentHour == endHour && currentMin >= endMin))) {
+            if (currentHour > endHour || (currentHour == endHour && currentMin >= endMin)) {
                 calculateTime(startHour, startMin, endHour, endMin, true)
             } else {
                 calculateTime(startHour, startMin, currentHour, currentMin, true)
