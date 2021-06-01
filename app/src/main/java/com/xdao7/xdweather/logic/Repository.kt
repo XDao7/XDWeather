@@ -30,6 +30,9 @@ object Repository {
     fun refreshWeather(city: City) = fire {
         coroutineScope {
             val chooseCity = city.locations[city.position]
+            val deferredHourly = async {
+                XDWeatherNetwork.getHourlyWeather(chooseCity.id)
+            }
             val deferredDaily = async {
                 XDWeatherNetwork.getDailyWeather(chooseCity.id)
             }
@@ -46,6 +49,7 @@ object Repository {
                 })
             }
 
+            val hourlyResponse = deferredHourly.await()
             val dailyResponse = deferredDaily.await()
             val lifeResponse = deferredLife.await()
             val airResponse = deferredAir.await()
@@ -61,6 +65,7 @@ object Repository {
 
             val weather = Weather(
                 realtimeResponse.now,
+                hourlyResponse.hourly,
                 dailyResponse.daily,
                 airResponse.now,
                 lifeResponse.daily,
@@ -75,6 +80,9 @@ object Repository {
             val deferredRealtime = async {
                 XDWeatherNetwork.getRealtimeWeather(location.id)
             }
+            val deferredHourly = async {
+                XDWeatherNetwork.getHourlyWeather(location.id)
+            }
             val deferredDaily = async {
                 XDWeatherNetwork.getDailyWeather(location.id)
             }
@@ -86,12 +94,14 @@ object Repository {
             }
 
             val realtimeResponse = deferredRealtime.await()
+            val hourlyResponse = deferredHourly.await()
             val dailyResponse = deferredDaily.await()
             val airResponse = deferredAir.await()
             val lifeResponse = deferredLife.await()
 
             val weather = Weather(
                 realtimeResponse.now,
+                hourlyResponse.hourly,
                 dailyResponse.daily,
                 airResponse.now,
                 lifeResponse.daily,

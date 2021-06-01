@@ -1,9 +1,6 @@
 package com.xdao7.xdweather.logic.network.callback.qweather
 
-import com.xdao7.xdweather.logic.model.response.qweather.AirResponse
-import com.xdao7.xdweather.logic.model.response.qweather.DailyResponse
-import com.xdao7.xdweather.logic.model.response.qweather.LifeResponse
-import com.xdao7.xdweather.logic.model.response.qweather.RealtimeResponse
+import com.xdao7.xdweather.logic.model.response.qweather.*
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -16,11 +13,17 @@ interface WeatherService {
         @Query("key") key: String
     ): Call<RealtimeResponse>
 
-    @GET("weather/3d?")
+    @GET("weather/7d?")
     fun getDailyWeather(
         @Query("location") id: String,
         @Query("key") key: String
     ): Call<DailyResponse>
+
+    @GET("weather/24h?")
+    fun getHourlyWeather(
+        @Query("location") id: String,
+        @Query("key") key: String
+    ): Call<HourlyResponse>
 
     @GET("air/now?")
     fun getAir(@Query("location") id: String, @Query("key") key: String): Call<AirResponse>

@@ -20,6 +20,8 @@ object XDWeatherNetwork {
 
     suspend fun getRealtimeWeather(id: String) = weatherService.getRealtimeWeather(id, BuildConfig.PRIVATE_QWEATHER_KEY).await()
 
+    suspend fun getHourlyWeather(id: String) = weatherService.getHourlyWeather(id, BuildConfig.PRIVATE_QWEATHER_KEY).await()
+
     suspend fun getDailyWeather(id: String) = weatherService.getDailyWeather(id, BuildConfig.PRIVATE_QWEATHER_KEY).await()
 
     suspend fun getAir(id: String) = weatherService.getAir(id, BuildConfig.PRIVATE_QWEATHER_KEY).await()

@@ -14,11 +14,14 @@ import androidx.core.widget.NestedScrollView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
 import com.xdao7.xdweather.databinding.ActivityWeatherBinding
 import com.xdao7.xdweather.databinding.ItemForecastBinding
 import com.xdao7.xdweather.logic.model.*
 import com.xdao7.xdweather.logic.model.response.qweather.Location
+import com.xdao7.xdweather.ui.weather.HourlyAdapter
 import com.xdao7.xdweather.ui.weather.WeatherViewModel
 import com.xdao7.xdweather.utils.*
 import com.xdao7.xdweather.view.BaseScrollAnimatorView
@@ -37,6 +40,7 @@ class WeatherActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityWeatherBinding
 
+    private lateinit var hourlyAdapter: HourlyAdapter
     private lateinit var scrollRect: Rect
     private var locationPermission = false
 
@@ -208,6 +212,13 @@ class WeatherActivity : AppCompatActivity() {
                 imageTip.loadResources(R.drawable.ic_network)
                 showNoNetwork()
             }
+            includeForecast.rvHourly.apply {
+                layoutManager =
+                    LinearLayoutManager(this@WeatherActivity, RecyclerView.HORIZONTAL, false)
+                hourlyAdapter = HourlyAdapter(this@WeatherActivity)
+                adapter = hourlyAdapter
+                isNestedScrollingEnabled = false
+            }
         }
     }
 
@@ -221,6 +232,7 @@ class WeatherActivity : AppCompatActivity() {
                 needRefresh = false
                 refreshLocation {
                     runOnUiThread {
+                        hideCreateTip()
                         R.string.str_location_fail.showToast()
                         refreshWeather()
                     }
@@ -249,6 +261,7 @@ class WeatherActivity : AppCompatActivity() {
      */
     private fun showWeatherInfo(weather: Weather) {
         val realtime = weather.realtime
+        val hourly = weather.hourly
         val daily = weather.daily
         val life = weather.life
         val air = weather.air
@@ -266,10 +279,11 @@ class WeatherActivity : AppCompatActivity() {
 
             includeForecast.apply {
                 llForecast.removeAllViews()
+                hourlyAdapter.hourly = hourly
+                hourlyAdapter.notifyDataSetChanged()
                 val days = daily.size
                 for (i in 0 until days) {
                     val skycon = daily[i]
-
                     val itemForecastBinding = ItemForecastBinding.inflate(
                         LayoutInflater.from(this@WeatherActivity),
                         llForecast,
