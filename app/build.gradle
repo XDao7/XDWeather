@@ -27,7 +27,6 @@ android {
     buildTypes {
         debug {
             buildConfigField("boolean", "DEBUG", "true")
-            buildConfigField("String", "PRIVATE_HYPER_DATA_KEY", "\""+PRIVATE_HYPER_DATA_KEY+"\"")
             buildConfigField("String", "PRIVATE_QWEATHER_KEY", "\""+PRIVATE_QWEATHER_KEY+"\"")
         }
         release {
@@ -35,7 +34,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
             buildConfigField("boolean", "DEBUG", "false")
-            buildConfigField("String", "PRIVATE_HYPER_DATA_KEY", "\""+PRIVATE_HYPER_DATA_KEY+"\"")
             buildConfigField("String", "PRIVATE_QWEATHER_KEY", "\""+PRIVATE_QWEATHER_KEY+"\"")
         }
     }

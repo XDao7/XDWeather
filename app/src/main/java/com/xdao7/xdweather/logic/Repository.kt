@@ -34,7 +34,7 @@ object Repository {
                 XDWeatherNetwork.getDailyWeather(chooseCity.id)
             }
             val deferredLife = async {
-                XDWeatherNetwork.getLifeSuggestion(chooseCity.lat, chooseCity.lon)
+                XDWeatherNetwork.getLifeSuggestion(chooseCity.id)
             }
             val deferredAir = async {
                 XDWeatherNetwork.getAir(chooseCity.id)
@@ -63,7 +63,7 @@ object Repository {
                 realtimeResponse.now,
                 dailyResponse.daily,
                 airResponse.now,
-                lifeResponse.results[0].suggestion,
+                lifeResponse.daily,
                 cityWeather
             )
             Result.success(weather)
@@ -82,7 +82,7 @@ object Repository {
                 XDWeatherNetwork.getAir(location.id)
             }
             val deferredLife = async {
-                XDWeatherNetwork.getLifeSuggestion(location.lat, location.lon)
+                XDWeatherNetwork.getLifeSuggestion(location.id)
             }
 
             val realtimeResponse = deferredRealtime.await()
@@ -94,7 +94,7 @@ object Repository {
                 realtimeResponse.now,
                 dailyResponse.daily,
                 airResponse.now,
-                lifeResponse.results[0].suggestion,
+                lifeResponse.daily,
                 ArrayList()
             )
             Result.success(weather)

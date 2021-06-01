@@ -17,8 +17,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.material.appbar.AppBarLayout
 import com.xdao7.xdweather.databinding.ActivityWeatherBinding
 import com.xdao7.xdweather.databinding.ItemForecastBinding
-import com.xdao7.xdweather.logic.model.Weather
-import com.xdao7.xdweather.logic.model.getSky
+import com.xdao7.xdweather.logic.model.*
 import com.xdao7.xdweather.logic.model.response.qweather.Location
 import com.xdao7.xdweather.ui.weather.WeatherViewModel
 import com.xdao7.xdweather.utils.*
@@ -307,10 +306,14 @@ class WeatherActivity : AppCompatActivity() {
                     setProgress(realtime.humidity.toFloat())
                 }
                 textFeelsLike.text = getString(R.string.str_feels_like, realtime.feelsLike)
-                textColdRisk.text = life.flu.brief
-                textDressing.text = life.dressing.brief
-                textUltraviolet.text = life.uv.brief
-                textCarWashing.text = life.carWashing.brief
+                for (suggestion in life) {
+                    when (suggestion.type) {
+                        LIFE_CAR_WASHING -> textCarWashing.text = suggestion.category
+                        LIFE_DRESSING -> textDressing.text = suggestion.category
+                        LIFE_ULTRAVIOLET -> textUltraviolet.text = suggestion.category
+                        LIFE_COLD_RISK -> textColdRisk.text = suggestion.category
+                    }
+                }
             }
 
             includeWind.apply {
@@ -352,8 +355,6 @@ class WeatherActivity : AppCompatActivity() {
 
     /**
      * 隐藏提示UI（无网络、定位中）
-     *
-     * @param block 隐藏提示UI后额外需要执行的方法
      */
     private fun hideCreateTip() {
         binding.apply {
