@@ -14,10 +14,6 @@ ALIAS_NAME=
 
 ALIAS_PASS=
 
-心知天气私钥：
-
-PRIVATE_HYPER_DATA_KEY=
-
-和风天气私钥：
+和风天气私钥（注：需要开发者账号私钥，个别接口普通用户账号不支持）：
 
 PRIVATE_QWEATHER_KEY=
