@@ -275,7 +275,13 @@ class WeatherActivity : AppCompatActivity() {
             textTemp.text = getString(R.string.str_temp, realtime.temp)
             textSky.text = realtime.text
             textWeek.text = getString(getWeek())
-            clBg.setBackgroundResource(getSky(realtime.icon).bg)
+            clBg.setBackgroundResource(
+                if (isDay()) {
+                    getSky(realtime.icon).bgDay
+                } else {
+                    getSky(realtime.icon).bgNight
+                }
+            )
 
             includeForecast.apply {
                 llForecast.removeAllViews()

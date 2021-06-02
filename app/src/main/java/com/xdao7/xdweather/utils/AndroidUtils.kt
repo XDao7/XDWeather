@@ -126,6 +126,8 @@ fun getWeek() = when (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
     else -> R.string.str_day_of_week_1
 }
 
+fun isDay() = Calendar.getInstance().get(Calendar.HOUR_OF_DAY) in 7..17
+
 fun getStatusBarHeight(): Int {
     var statusBarHeight = 0
     val resourceId = XDWeatherApplication.context.resources.getIdentifier(
