@@ -44,7 +44,7 @@ class CityAdapter(
         val activity = fragment.activity as WeatherActivity
         holder.apply {
             root.setCardBackgroundColor(colors[position])
-            if (position > cityList.locations.size - 1 || cityList.position < 0) {
+            if (position >= cityList.locations.size || cityList.position < 0) {
                 groupWeather.visibility = View.GONE
                 imgChoose.visibility = View.GONE
                 imgTool.visibility = View.VISIBLE
