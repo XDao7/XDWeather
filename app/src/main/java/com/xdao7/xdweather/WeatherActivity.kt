@@ -278,7 +278,8 @@ class WeatherActivity : AppCompatActivity() {
             textWeek.text = getString(getWeek())
             if (warning != null && warning.isNotEmpty()) {
                 textWarning.visibility = View.VISIBLE
-                textWarning.text = getString(R.string.str_waring, warning[0].typeName, warning[0].level)
+                textWarning.text =
+                    getString(R.string.str_waring, warning[0].typeName, warning[0].level)
             } else {
                 textWarning.visibility = View.GONE
             }
@@ -335,9 +336,14 @@ class WeatherActivity : AppCompatActivity() {
                 textFeelsLike.text = getString(R.string.str_feels_like, realtime.feelsLike)
                 for (suggestion in life) {
                     when (suggestion.type) {
+                        LIFE_SPORT -> textSport.text = suggestion.category
                         LIFE_CAR_WASHING -> textCarWashing.text = suggestion.category
                         LIFE_DRESSING -> textDressing.text = suggestion.category
-                        LIFE_ULTRAVIOLET -> textUltraviolet.text = suggestion.category
+                        LIFE_ULTRAVIOLET -> textUltraviolet.text = getString(
+                            R.string.str_ultraviolet,
+                            suggestion.level,
+                            suggestion.category
+                        )
                         LIFE_COLD_RISK -> textColdRisk.text = suggestion.category
                     }
                 }

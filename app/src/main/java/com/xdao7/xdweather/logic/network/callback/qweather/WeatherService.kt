@@ -41,7 +41,7 @@ interface WeatherService {
     fun getLifeSuggestion(
         @Query("location") id: String,
         @Query("key") key: String,
-        @Query("type") type: String = "2,3,5,9"
+        @Query("type") type: String = "1,2,3,5,9"
     ): Call<LifeResponse>
 
     @GET("warning/now?")

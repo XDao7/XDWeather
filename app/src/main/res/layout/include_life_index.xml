@@ -55,9 +55,8 @@
             android:text="@string/str_feels_like_title"
             android:textColor="@color/colorDefault"
             app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintBottom_toBottomOf="@id/round_bar_humidity"
-            app:layout_constraintEnd_toStartOf="@id/text_feels_like"
-            app:layout_constraintStart_toEndOf="@id/round_bar_humidity"
+            app:layout_constraintBottom_toTopOf="@id/text_ultraviolet_title"
+            app:layout_constraintStart_toStartOf="@id/text_ultraviolet_title"
             app:layout_constraintTop_toTopOf="@id/round_bar_humidity" />
 
         <TextView
@@ -65,19 +64,41 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:layout_marginStart="20dp"
             app:layout_constraintBottom_toBottomOf="@id/text_feels_like_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/text_feels_like_title"
+            app:layout_constraintStart_toStartOf="@id/text_ultraviolet"
             app:layout_constraintTop_toTopOf="@id/text_feels_like_title"
             tools:text="20 ℃" />
+
+        <TextView
+            android:id="@+id/text_ultraviolet_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/str_ultraviolet_title"
+            android:textColor="@color/colorDefault"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintBottom_toBottomOf="@id/round_bar_humidity"
+            app:layout_constraintStart_toEndOf="@id/round_bar_humidity"
+            app:layout_constraintEnd_toStartOf="@id/text_ultraviolet"
+            app:layout_constraintTop_toBottomOf="@id/text_feels_like_title" />
+
+        <TextView
+            android:id="@+id/text_ultraviolet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/text_ultraviolet_title"
+            app:layout_constraintStart_toEndOf="@id/text_ultraviolet_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/text_ultraviolet_title"
+            tools:text="1 最弱" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_cold_risk"
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_marginTop="20dp"
-            app:layout_constraintBottom_toTopOf="@id/cl_ultraviolet"
+            app:layout_constraintBottom_toTopOf="@id/cl_sport"
             app:layout_constraintEnd_toStartOf="@id/cl_dressing"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/round_bar_humidity">
@@ -164,7 +185,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_ultraviolet"
+            android:id="@+id/cl_sport"
             android:layout_width="0dp"
             android:layout_height="60dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -173,39 +194,39 @@
             app:layout_constraintTop_toBottomOf="@id/cl_cold_risk">
 
             <ImageView
-                android:id="@+id/image_ultraviolet"
+                android:id="@+id/image_sport"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:contentDescription="@null"
-                android:src="@drawable/ic_ultraviolet"
+                android:src="@drawable/ic_sport"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/text_ultraviolet_title"
+                android:id="@+id/text_sport_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:text="@string/str_ultraviolet"
+                android:text="@string/str_sport"
                 android:textColor="@color/colorDefault"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toTopOf="@id/text_ultraviolet"
-                app:layout_constraintStart_toEndOf="@id/image_ultraviolet"
+                app:layout_constraintBottom_toTopOf="@id/text_sport"
+                app:layout_constraintStart_toEndOf="@id/image_sport"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/text_ultraviolet"
+                android:id="@+id/text_sport"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="?android:attr/textColorPrimary"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/image_ultraviolet"
-                app:layout_constraintStart_toStartOf="@id/text_ultraviolet_title"
-                app:layout_constraintTop_toBottomOf="@id/text_ultraviolet_title"
-                tools:text="强" />
+                app:layout_constraintStart_toEndOf="@id/image_sport"
+                app:layout_constraintStart_toStartOf="@id/text_sport_title"
+                app:layout_constraintTop_toBottomOf="@id/text_sport_title"
+                tools:text="适宜" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -214,7 +235,7 @@
             android:layout_height="60dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cl_ultraviolet"
+            app:layout_constraintStart_toEndOf="@id/cl_sport"
             app:layout_constraintTop_toBottomOf="@id/cl_dressing">
 
             <ImageView

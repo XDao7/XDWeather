@@ -42,10 +42,12 @@
     <string name="str_life_index">生活指数</string>
     <string name="str_humidity">空气湿度</string>
     <string name="str_feels_like_title">体感温度</string>
+    <string name="str_ultraviolet_title">紫外线指数</string>
     <string name="str_feels_like">%1$d ℃</string>
+    <string name="str_ultraviolet">%1$d %2$s</string>
     <string name="str_cold_risk">感冒</string>
     <string name="str_dressing">穿衣</string>
-    <string name="str_ultraviolet">实时紫外线</string>
+    <string name="str_sport">运动</string>
     <string name="str_car_washing">洗车</string>
 
     <string name="str_wind_title">风力风向</string>
