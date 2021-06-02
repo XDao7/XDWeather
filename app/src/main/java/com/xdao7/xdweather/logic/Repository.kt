@@ -42,6 +42,9 @@ object Repository {
             val deferredAir = async {
                 XDWeatherNetwork.getAir(chooseCity.id)
             }
+            val deferredWaring = async {
+                XDWeatherNetwork.getWarning(chooseCity.id)
+            }
             val deferredList: ArrayList<Deferred<RealtimeResponse>> = ArrayList()
             for (i in city.locations.indices) {
                 deferredList.add(async {
@@ -53,6 +56,7 @@ object Repository {
             val dailyResponse = deferredDaily.await()
             val lifeResponse = deferredLife.await()
             val airResponse = deferredAir.await()
+            val waringResponse = deferredWaring.await()
             val cityWeather: ArrayList<RealtimeResponse.Now> = ArrayList()
             val realtimeResponse = deferredList[city.position].await()
             for (i in city.locations.indices) {
@@ -69,7 +73,8 @@ object Repository {
                 dailyResponse.daily,
                 airResponse.now,
                 lifeResponse.daily,
-                cityWeather
+                cityWeather,
+                waringResponse.warning
             )
             Result.success(weather)
         }
@@ -92,12 +97,16 @@ object Repository {
             val deferredLife = async {
                 XDWeatherNetwork.getLifeSuggestion(location.id)
             }
+            val deferredWaring = async {
+                XDWeatherNetwork.getWarning(location.id)
+            }
 
             val realtimeResponse = deferredRealtime.await()
             val hourlyResponse = deferredHourly.await()
             val dailyResponse = deferredDaily.await()
             val airResponse = deferredAir.await()
             val lifeResponse = deferredLife.await()
+            val waringResponse = deferredWaring.await()
 
             val weather = Weather(
                 realtimeResponse.now,
@@ -105,7 +114,8 @@ object Repository {
                 dailyResponse.daily,
                 airResponse.now,
                 lifeResponse.daily,
-                ArrayList()
+                ArrayList(),
+                waringResponse.warning
             )
             Result.success(weather)
         }

@@ -1,4 +1,4 @@
-package com.xdao7.xdweather.ui.place
+package com.xdao7.xdweather.ui.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations

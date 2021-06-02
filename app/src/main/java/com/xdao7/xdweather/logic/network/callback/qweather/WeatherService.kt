@@ -43,4 +43,10 @@ interface WeatherService {
         @Query("key") key: String,
         @Query("type") type: String = "2,3,5,9"
     ): Call<LifeResponse>
+
+    @GET("warning/now?")
+    fun getWaring(
+        @Query("location") id: String,
+        @Query("key") key: String
+    ): Call<WarningResponse>
 }

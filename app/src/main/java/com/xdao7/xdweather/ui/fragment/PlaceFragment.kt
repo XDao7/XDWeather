@@ -1,4 +1,4 @@
-package com.xdao7.xdweather.ui.place
+package com.xdao7.xdweather.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xdao7.xdweather.R
 import com.xdao7.xdweather.databinding.FragmentPlaceBinding
+import com.xdao7.xdweather.ui.adapter.PlaceAdapter
+import com.xdao7.xdweather.ui.viewmodel.PlaceViewModel
 import com.xdao7.xdweather.utils.getStatusBarHeight
 
 class PlaceFragment : Fragment() {

@@ -8,5 +8,6 @@ data class Weather(
     val daily: List<DailyResponse.Daily>,
     val air: AirResponse.Now,
     val life: List<LifeResponse.Daily>,
-    val cityInfo: ArrayList<RealtimeResponse.Now>
+    val cityInfo: ArrayList<RealtimeResponse.Now>,
+    val warning: List<WarningResponse.Warning>?
 )

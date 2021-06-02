@@ -25,6 +25,7 @@
     <string name="str_day_of_week_5">星期四</string>
     <string name="str_day_of_week_6">星期五</string>
     <string name="str_day_of_week_7">星期六</string>
+    <string name="str_waring">%1$s%2$s预警</string>
 
     <string name="str_forecast">预报</string>
     <string name="str_temp_hourly">%1$d℃</string>

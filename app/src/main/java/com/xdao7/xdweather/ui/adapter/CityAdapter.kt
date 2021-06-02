@@ -1,4 +1,4 @@
-package com.xdao7.xdweather.ui.city
+package com.xdao7.xdweather.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +9,7 @@ import com.xdao7.xdweather.R
 import com.xdao7.xdweather.WeatherActivity
 import com.xdao7.xdweather.databinding.ItemCityBinding
 import com.xdao7.xdweather.logic.model.City
+import com.xdao7.xdweather.ui.fragment.CityFragment
 
 class CityAdapter(
     private val fragment: CityFragment,

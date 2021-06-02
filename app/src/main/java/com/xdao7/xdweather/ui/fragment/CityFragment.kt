@@ -1,4 +1,4 @@
-package com.xdao7.xdweather.ui.city
+package com.xdao7.xdweather.ui.fragment
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.xdao7.xdweather.R
 import com.xdao7.xdweather.WeatherActivity
 import com.xdao7.xdweather.databinding.FragmentCityBinding
+import com.xdao7.xdweather.ui.adapter.CityAdapter
 import com.xdao7.xdweather.utils.ACTION_REFRESH_CITY
 import com.xdao7.xdweather.utils.getStatusBarHeight
 

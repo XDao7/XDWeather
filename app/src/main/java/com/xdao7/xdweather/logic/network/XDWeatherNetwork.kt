@@ -28,6 +28,8 @@ object XDWeatherNetwork {
 
     suspend fun getLifeSuggestion(id: String) = weatherService.getLifeSuggestion(id, BuildConfig.PRIVATE_QWEATHER_KEY).await()
 
+    suspend fun getWarning(id: String) = weatherService.getWaring(id, BuildConfig.PRIVATE_QWEATHER_KEY).await()
+
     private suspend fun <T> Call<T>.await(): T {
         return suspendCoroutine { continuation ->
             enqueue(object : Callback<T> {

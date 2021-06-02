@@ -1,4 +1,4 @@
-package com.xdao7.xdweather.ui.place
+package com.xdao7.xdweather.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,6 +8,7 @@ import com.xdao7.xdweather.SearchActivity
 import com.xdao7.xdweather.R
 import com.xdao7.xdweather.databinding.ItemPlaceBinding
 import com.xdao7.xdweather.logic.model.response.qweather.Location
+import com.xdao7.xdweather.ui.fragment.PlaceFragment
 
 class PlaceAdapter(private val fragment: PlaceFragment, private val placeList: List<Location>) :
     RecyclerView.Adapter<PlaceAdapter.ViewHolder>() {

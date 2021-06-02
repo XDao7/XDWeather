@@ -1,4 +1,4 @@
-package com.xdao7.xdweather.ui.weather
+package com.xdao7.xdweather.ui.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
