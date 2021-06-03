@@ -33,7 +33,8 @@
                 android:id="@+id/app_bar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="invisible">
+                android:visibility="invisible"
+                tools:visibility="visible">
 
                 <com.google.android.material.appbar.CollapsingToolbarLayout
                     android:layout_width="match_parent"
@@ -118,6 +119,7 @@
                             android:layout_marginTop="10dp"
                             android:textColor="@color/white"
                             android:textSize="14sp"
+                            app:drawableEndCompat="@drawable/ic_right"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_chainStyle="packed"
                             app:layout_constraintStart_toStartOf="parent"

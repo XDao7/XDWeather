@@ -22,6 +22,7 @@ import com.xdao7.xdweather.databinding.ItemForecastBinding
 import com.xdao7.xdweather.logic.model.*
 import com.xdao7.xdweather.logic.model.response.qweather.Location
 import com.xdao7.xdweather.ui.adapter.HourlyAdapter
+import com.xdao7.xdweather.ui.dialog.WarningDialog
 import com.xdao7.xdweather.ui.viewmodel.WeatherViewModel
 import com.xdao7.xdweather.utils.*
 import com.xdao7.xdweather.view.BaseScrollAnimatorView
@@ -280,6 +281,10 @@ class WeatherActivity : AppCompatActivity() {
                 textWarning.visibility = View.VISIBLE
                 textWarning.text =
                     getString(R.string.str_waring, warning[0].typeName, warning[0].level)
+                textWarning.setOnClickListener {
+                    val warningDialog = WarningDialog(this@WeatherActivity, warning)
+                    warningDialog.show()
+                }
             } else {
                 textWarning.visibility = View.GONE
             }

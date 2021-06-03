@@ -4,8 +4,10 @@ data class WarningResponse(val code: Int, val warning: List<Warning>) {
 
     data class Warning(
         val id: String,
+        val pubTime: String,
         val title: String,
         val level: String,
-        val typeName: String
+        val typeName: String,
+        val text: String
     )
 }

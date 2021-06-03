@@ -61,5 +61,8 @@
     <string name="str_moon_rise">月升</string>
     <string name="str_moon_set">月落</string>
 
+    <string name="str_warning_title">灾害预警</string>
+    <string name="str_warning_time">发布时间：%1$s</string>
+
     <string name="str_city_manager">城市管理</string>
 </resources>
