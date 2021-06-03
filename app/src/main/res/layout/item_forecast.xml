@@ -37,10 +37,10 @@
         android:textColor="@color/colorDefault"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/text_temperature"
-        app:layout_constraintHorizontal_weight="3"
+        app:layout_constraintHorizontal_weight="4"
         app:layout_constraintStart_toEndOf="@id/image_sky"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="晴" />
+        tools:text="雷阵雨伴有冰雹" />
 
     <TextView
         android:id="@+id/text_temperature"
