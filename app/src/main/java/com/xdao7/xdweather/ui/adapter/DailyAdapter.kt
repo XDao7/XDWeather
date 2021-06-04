@@ -17,6 +17,7 @@ class DailyAdapter(
     RecyclerView.Adapter<DailyAdapter.ViewHolder>() {
 
     inner class ViewHolder(binding: ItemDailyBinding) : RecyclerView.ViewHolder(binding.root) {
+        val svWeather = binding.svWeather
         val textWeek = binding.textWeek
         val textDate = binding.textDate
         val textTempMax = binding.textTempMax
@@ -51,6 +52,7 @@ class DailyAdapter(
         val daySky = getSky(daily.iconDay)
         val nightSky = getSky(daily.iconNight)
         holder.apply {
+            svWeather.scrollTo(0, 0)
             textWeek.text = context.getString(getWeek(position))
             textDate.text = daily.fxDate
             textTempMax.text = daily.tempMax.toString()
