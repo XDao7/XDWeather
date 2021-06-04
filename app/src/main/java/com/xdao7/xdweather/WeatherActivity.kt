@@ -317,6 +317,9 @@ class WeatherActivity : AppCompatActivity() {
                     }
                     llForecast.addView(itemForecastBinding.root)
                 }
+                textDetails.setOnClickListener {
+                    DailyActivity.actionStart(this@WeatherActivity, daily)
+                }
             }
 
             includeAir.apply {

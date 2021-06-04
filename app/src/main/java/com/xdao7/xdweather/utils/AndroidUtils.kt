@@ -115,15 +115,21 @@ fun getCurrentTime(): String {
     return "${calender.get(Calendar.HOUR_OF_DAY)}:${calender.get(Calendar.MINUTE)}"
 }
 
-fun getWeek() = when (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
-    1 -> R.string.str_day_of_week_1
-    2 -> R.string.str_day_of_week_2
-    3 -> R.string.str_day_of_week_3
-    4 -> R.string.str_day_of_week_4
-    5 -> R.string.str_day_of_week_5
-    6 -> R.string.str_day_of_week_6
-    7 -> R.string.str_day_of_week_7
-    else -> R.string.str_day_of_week_1
+fun getWeek(position: Int = 0): Int {
+    var week = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) + position
+    if (week > 7) {
+        week -= 7
+    }
+    return when (week) {
+        1 -> R.string.str_day_of_week_1
+        2 -> R.string.str_day_of_week_2
+        3 -> R.string.str_day_of_week_3
+        4 -> R.string.str_day_of_week_4
+        5 -> R.string.str_day_of_week_5
+        6 -> R.string.str_day_of_week_6
+        7 -> R.string.str_day_of_week_7
+        else -> R.string.str_day_of_week_1
+    }
 }
 
 fun isDay() = Calendar.getInstance().get(Calendar.HOUR_OF_DAY) in 7..17

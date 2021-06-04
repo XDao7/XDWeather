@@ -5,7 +5,7 @@ import com.xdao7.xdweather.logic.model.response.qweather.*
 data class Weather(
     val realtime: RealtimeResponse.Now,
     val hourly: List<HourlyResponse.Hourly>,
-    val daily: List<DailyResponse.Daily>,
+    val daily: ArrayList<DailyResponse.Daily>,
     val air: AirResponse.Now,
     val life: List<LifeResponse.Daily>,
     val cityInfo: ArrayList<RealtimeResponse.Now>,

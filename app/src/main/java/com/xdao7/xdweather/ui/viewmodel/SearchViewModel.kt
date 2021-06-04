@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.xdao7.xdweather.logic.Repository
 import com.xdao7.xdweather.logic.model.response.qweather.Location
 
-class PlaceViewModel : ViewModel() {
+class SearchViewModel : ViewModel() {
 
     private val searchLiveData = MutableLiveData<String>()
 

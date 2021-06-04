@@ -8,10 +8,10 @@ import com.xdao7.xdweather.SearchActivity
 import com.xdao7.xdweather.R
 import com.xdao7.xdweather.databinding.ItemPlaceBinding
 import com.xdao7.xdweather.logic.model.response.qweather.Location
-import com.xdao7.xdweather.ui.fragment.PlaceFragment
+import com.xdao7.xdweather.ui.fragment.SearchFragment
 
-class PlaceAdapter(private val fragment: PlaceFragment, private val placeList: List<Location>) :
-    RecyclerView.Adapter<PlaceAdapter.ViewHolder>() {
+class SearchAdapter(private val fragment: SearchFragment, private val placeList: List<Location>) :
+    RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
     inner class ViewHolder(binding: ItemPlaceBinding) : RecyclerView.ViewHolder(binding.root) {
         val textPlaceName: TextView = binding.textPlaceName
@@ -27,7 +27,8 @@ class PlaceAdapter(private val fragment: PlaceFragment, private val placeList: L
         val place = placeList[position]
         holder.apply {
             textPlaceName.text = place.name
-            textPlaceAddress.text = fragment.getString(R.string.str_place_adm, place.adm2, place.adm1, place.country)
+            textPlaceAddress.text =
+                fragment.getString(R.string.str_place_adm, place.adm2, place.adm1, place.country)
             itemView.setOnClickListener {
                 val activity = fragment.activity
                 if (activity is SearchActivity) {

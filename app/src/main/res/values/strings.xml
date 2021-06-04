@@ -2,11 +2,11 @@
     <string name="app_name">XDWeather</string>
 
     <string name="str_author">XDao7</string>
-    
+
     <string name="str_location_permissions_denied">定位权限不可用</string>
     <string name="str_location_fail">定位失败</string>
     <string name="str_location_search_fail">未定位到相关地点</string>
-    
+
     <string name="str_hint_search_place">搜索城市（中文/拼音）</string>
     <string name="str_btn_search">搜索</string>
     <string name="str_no_search">未能查询到任何地点</string>
@@ -30,6 +30,7 @@
     <string name="str_forecast">预报</string>
     <string name="str_temp_hourly">%1$d℃</string>
     <string name="str_temp_limit">%1$d ~ %2$d ℃</string>
+    <string name="str_details">查看详情</string>
 
     <string name="str_air">空气质量</string>
     <string name="str_pm10">PM10</string>
@@ -65,4 +66,24 @@
     <string name="str_warning_time">发布时间：%1$s</string>
 
     <string name="str_city_manager">城市管理</string>
+
+    <string name="str_daily_details">逐日预报详情</string>
+    <string name="str_daily_day">白天天气状况</string>
+    <string name="str_daily_night">夜间天气状况</string>
+    <string name="str_daily_precip_title">降水量</string>
+    <string name="str_daily_uvIndex_title">紫外线</string>
+    <string name="str_daily_humidity_title">相对湿度</string>
+    <string name="str_daily_pressure_title">大气压强</string>
+    <string name="str_daily_vis_title">能见度</string>
+    <string name="str_daily_cloud_title">云量</string>
+    <string name="str_daily_temp">/%1$d℃</string>
+    <string name="str_daily_360">%1$d°</string>
+    <string name="str_daily_scale">%1$s级</string>
+    <string name="str_daily_speed">%1$dkm/h</string>
+    <string name="str_daily_precip">%1$#.2f毫米</string>
+    <string name="str_daily_uvIndex">%1$d级</string>
+    <string name="str_daily_humidity">%1$d%%</string>
+    <string name="str_daily_pressure">%1$d百帕</string>
+    <string name="str_daily_vis">%1$d公里</string>
+    <string name="str_daily_cloud">%1$d%%</string>
 </resources>

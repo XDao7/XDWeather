@@ -10,28 +10,28 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xdao7.xdweather.R
-import com.xdao7.xdweather.databinding.FragmentPlaceBinding
-import com.xdao7.xdweather.ui.adapter.PlaceAdapter
-import com.xdao7.xdweather.ui.viewmodel.PlaceViewModel
+import com.xdao7.xdweather.databinding.FragmentSearchBinding
+import com.xdao7.xdweather.ui.adapter.SearchAdapter
+import com.xdao7.xdweather.ui.viewmodel.SearchViewModel
 import com.xdao7.xdweather.utils.getStatusBarHeight
 
-class PlaceFragment : Fragment() {
+class SearchFragment : Fragment() {
 
-    private var _binding: FragmentPlaceBinding? = null
+    private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel by lazy {
-        ViewModelProvider(this).get(PlaceViewModel::class.java)
+        ViewModelProvider(this).get(SearchViewModel::class.java)
     }
 
-    private lateinit var adapter: PlaceAdapter
+    private lateinit var adapter: SearchAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentPlaceBinding.inflate(inflater, container, false)
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
 
         binding.clActionbar.setPadding(0, getStatusBarHeight(), 0, 0)
         return binding.root
@@ -51,10 +51,10 @@ class PlaceFragment : Fragment() {
 
     private fun initViews() {
         binding.apply {
-            adapter = PlaceAdapter(this@PlaceFragment, viewModel.placeList)
+            adapter = SearchAdapter(this@SearchFragment, viewModel.placeList)
             rvPlace.apply {
                 layoutManager = LinearLayoutManager(activity)
-                adapter = this@PlaceFragment.adapter
+                adapter = this@SearchFragment.adapter
             }
 
             btnSearch.setOnClickListener {
