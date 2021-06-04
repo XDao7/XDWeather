@@ -4,37 +4,29 @@
 
 ## 展示
 
-主界面：
+主界面：  
+<img src="docs/main.png" width="200" />  
 
-<img src="docs/main.png" align='left' style="zoom: 15%;" />
+逐小时和逐日天气预报：  
+<img src="docs/forecast.png" width="200" />  
 
-逐小时和逐日天气预报：
+空气质量和生活指数：  
+<img src="docs/air_and_life.png" width="200" />  
 
-<img src="docs/forecast.png" align='left' style="zoom: 15%;" />
+风力风向和太阳月亮：  
+<img src="docs/wind_and_sun.png" width="200" />  
 
-空气质量和生活指数：
+城市管理：  
+<img src="docs/city.png" width="200" />  
 
-<img src="docs/air_and_life.png" align='left' style="zoom: 15%;" />
+逐日天气预报详情：  
+<img src="docs/daily_1.png" width="200" /><img src="docs/daily_2.png" width="200" />  
 
-风力风向和太阳月亮：
+天气灾害预警：  
+<img src="docs/warning.png" width="200" />  
 
-<img src="docs/wind_and_sun.png" align='left' style="zoom: 15%;" />
-
-城市管理：
-
-<img src="docs/city.png" align='left' style="zoom: 15%;" />
-
-逐日天气预报详情：
-
-<img src="docs/daily_1.png" align='left' style="zoom: 15%;" /><img src="docs/daily_2.png" style="zoom: 15%;" />
-
-天气灾害预警：
-
-<img src="docs/warning.png" align='left' style="zoom: 15%;" />
-
-城市搜索：
-
-<img src="docs/search_1.png" align='left' style="zoom: 15%;" /><img src="docs/search_2.png" style="zoom: 15%;" />
+城市搜索：  
+<img src="docs/search_1.png" width="200" /><img src="docs/search_2.png" width="200" />  
 
 ## 说明
 
