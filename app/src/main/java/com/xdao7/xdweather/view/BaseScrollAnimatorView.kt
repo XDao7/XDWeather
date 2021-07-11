@@ -2,6 +2,7 @@ package com.xdao7.xdweather.view
 
 import android.animation.ValueAnimator
 import android.content.Context
+import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.View
 
@@ -27,17 +28,21 @@ abstract class BaseScrollAnimatorView : View{
         super.onDetachedFromWindow()
     }
 
-    fun baseAnimator(block: () -> Unit) {
-        if (isNeedAnimator) {
-            isNeedAnimator = false
-            animator.apply {
-                if (isRunning) {
-                    cancel()
+    fun baseAnimator(scrollRect: Rect?, block: () -> Unit) {
+        if (scrollRect == null || getLocalVisibleRect(scrollRect)) {
+            if (isNeedAnimator) {
+                isNeedAnimator = false
+                animator.apply {
+                    if (isRunning) {
+                        cancel()
+                    }
                 }
+                block()
             }
-            block()
+        } else {
+            isNeedAnimator = true
         }
     }
 
-    abstract fun startAnimator()
+    abstract fun startAnimator(scrollRect: Rect?)
 }

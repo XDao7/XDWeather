@@ -19,36 +19,34 @@ object LocationUtils {
     /**
      * 获取定位信息
      */
-    fun getLocation(timeOut: Long = 2000L, block: (location: Location?) -> Unit) {
-        GlobalScope.launch {
-            try {
-                var hasResult = false
-                var bestLocation = getLastKnownLocation()
+    suspend fun getLocation(timeOut: Long = 2000L, block: (location: Location?) -> Unit) {
+        try {
+            var hasResult = false
+            var bestLocation = getLastKnownLocation()
 
-                val gpsListener = createLocationListener { location ->
-                    if (isBetterLocation(location, bestLocation)) {
-                        hasResult = true
-                        block(location)
-                    }
+            val gpsListener = createLocationListener { location ->
+                if (isBetterLocation(location, bestLocation)) {
+                    hasResult = true
+                    block(location)
                 }
-                val networkListener = createLocationListener { location ->
-                    if (isBetterLocation(location, bestLocation) && !hasResult) {
-                        bestLocation = location
-                    }
-                }
-
-                requestLocationUpdates(gpsListener, LocationManager.GPS_PROVIDER)
-                requestLocationUpdates(networkListener, LocationManager.NETWORK_PROVIDER)
-
-                delay(timeOut)
-                if (!hasResult) {
-                    block(bestLocation)
-                }
-                locationManager.removeUpdates(gpsListener)
-                locationManager.removeUpdates(networkListener)
-            } catch (t: SecurityException) {
-                block(null)
             }
+            val networkListener = createLocationListener { location ->
+                if (isBetterLocation(location, bestLocation) && !hasResult) {
+                    bestLocation = location
+                }
+            }
+
+            requestLocationUpdates(gpsListener, LocationManager.GPS_PROVIDER)
+            requestLocationUpdates(networkListener, LocationManager.NETWORK_PROVIDER)
+
+            delay(timeOut)
+            if (!hasResult) {
+                block(bestLocation)
+            }
+            locationManager.removeUpdates(gpsListener)
+            locationManager.removeUpdates(networkListener)
+        } catch (t: SecurityException) {
+            block(null)
         }
     }
 

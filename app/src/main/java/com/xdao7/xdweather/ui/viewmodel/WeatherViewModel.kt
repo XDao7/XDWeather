@@ -3,11 +3,13 @@ package com.xdao7.xdweather.ui.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.xdao7.xdweather.logic.Repository
 import com.xdao7.xdweather.logic.model.City
 import com.xdao7.xdweather.logic.model.response.qweather.Location
 import com.xdao7.xdweather.logic.model.response.qweather.RealtimeResponse
 import com.xdao7.xdweather.utils.LocationUtils
+import kotlinx.coroutines.launch
 
 class WeatherViewModel : ViewModel() {
 
@@ -37,11 +39,13 @@ class WeatherViewModel : ViewModel() {
      * @param block 无法获取定位后需要执行的方法
      */
     fun refreshLocation(block: () -> Unit) {
-        LocationUtils.getLocation { location ->
-            if (location != null) {
-                searchLocation("${location.longitude},${location.latitude}")
-            } else {
-                block()
+        viewModelScope.launch {
+            LocationUtils.getLocation { location ->
+                if (location != null) {
+                    searchLocation("${location.longitude},${location.latitude}")
+                } else {
+                    block()
+                }
             }
         }
     }

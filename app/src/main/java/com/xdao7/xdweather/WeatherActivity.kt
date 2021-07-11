@@ -43,6 +43,7 @@ class WeatherActivity : AppCompatActivity() {
 
     private lateinit var hourlyAdapter: HourlyAdapter
     private lateinit var scrollRect: Rect
+    private val scrollViews: ArrayList<BaseScrollAnimatorView> = ArrayList()
     private var locationPermission = false
 
     val viewModel by lazy { ViewModelProvider(this).get(WeatherViewModel::class.java) }
@@ -98,9 +99,7 @@ class WeatherActivity : AppCompatActivity() {
             weatherLiveData.observe(this@WeatherActivity) { result ->
                 val weather = result.getOrNull()
                 if (weather != null) {
-                    updateCityInfo(weather.cityInfo)
                     showWeatherInfo(weather)
-                    sendRefreshCity()
                     R.string.str_refresh_success.showToast()
                 } else {
                     R.string.str_no_weather.showToast()
@@ -220,6 +219,10 @@ class WeatherActivity : AppCompatActivity() {
                 adapter = hourlyAdapter
                 isNestedScrollingEnabled = false
             }
+            scrollViews.add(includeAir.roundBarAir)
+            scrollViews.add(includeLifeIndex.roundBarHumidity)
+            scrollViews.add(includeSunMoon.sun)
+            scrollViews.add(includeSunMoon.moon)
         }
     }
 
@@ -374,14 +377,6 @@ class WeatherActivity : AppCompatActivity() {
     }
 
     /**
-     * 发送城市列表更新广播
-     */
-    private fun sendRefreshCity() {
-        val intent = Intent(ACTION_REFRESH_CITY)
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
-    }
-
-    /**
      * 提示无网络链接
      */
     private fun showNoNetwork() {
@@ -407,29 +402,11 @@ class WeatherActivity : AppCompatActivity() {
     }
 
     /**
-     * 指定动画UI
-     */
-    private fun loadViewAnimator() {
-        binding.apply {
-            startAnimator(includeAir.roundBarAir)
-            startAnimator(includeLifeIndex.roundBarHumidity)
-            includeSunMoon.apply {
-                startAnimator(sun)
-                startAnimator(moon)
-            }
-        }
-    }
-
-    /**
      * 启动动画
      */
-    private fun <T : BaseScrollAnimatorView> startAnimator(view: T) {
-        view.apply {
-            if (getLocalVisibleRect(scrollRect)) {
-                startAnimator()
-            } else {
-                isNeedAnimator = true
-            }
+    private fun loadViewAnimator() {
+        for (view in scrollViews) {
+            view.startAnimator(scrollRect)
         }
     }
 }

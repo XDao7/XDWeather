@@ -284,7 +284,7 @@ class SunAnimatorView : BaseScrollAnimatorView {
         currentAngle = percentage * 180
 
         isNeedAnimator = true
-        startAnimator()
+        startAnimator(null)
     }
 
     /**
@@ -329,8 +329,8 @@ class SunAnimatorView : BaseScrollAnimatorView {
     /**
      * 启动动画
      */
-    override fun startAnimator() {
-        baseAnimator {
+    override fun startAnimator(scrollRect: Rect?) {
+        baseAnimator(scrollRect) {
             animator.apply {
                 setFloatValues(0f, currentAngle)
                 start()

@@ -132,7 +132,7 @@ fun getWeek(position: Int = 0): Int {
     }
 }
 
-fun isDay() = Calendar.getInstance().get(Calendar.HOUR_OF_DAY) in 7..17
+fun isDay() = Calendar.getInstance().get(Calendar.HOUR_OF_DAY) in 7..19
 
 fun getStatusBarHeight(): Int {
     var statusBarHeight = 0

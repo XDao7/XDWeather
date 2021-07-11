@@ -323,7 +323,7 @@ class RoundProgressBar : BaseScrollAnimatorView {
         currentAngleSize = angleSize * size
 
         isNeedAnimator = true
-        startAnimator()
+        startAnimator(null)
     }
 
     fun chooseColor(level: Int) {
@@ -341,8 +341,8 @@ class RoundProgressBar : BaseScrollAnimatorView {
     /**
      * 启动动画
      */
-    override fun startAnimator() {
-        baseAnimator {
+    override fun startAnimator(scrollRect: Rect?) {
+        baseAnimator(scrollRect) {
             animator.apply {
                 setFloatValues(0f, currentAngleSize)
                 start()
