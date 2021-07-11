@@ -15,15 +15,26 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="18:00" />
 
+    <TextView
+        android:id="@+id/text_pop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorDefault"
+        app:layout_constraintBottom_toTopOf="@id/image_sky"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_time"
+        tools:text="50%" />
+
     <ImageView
         android:id="@+id/image_sky"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:contentDescription="@null"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/text_temp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_pop"
         tools:src="@drawable/ic_weather_1" />
 
     <TextView

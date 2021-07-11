@@ -13,11 +13,7 @@ class WarningAdapter(
     private val warningList: List<WarningResponse.Warning>
 ) : RecyclerView.Adapter<WarningAdapter.ViewHolder>() {
 
-    inner class ViewHolder(binding: ItemWarningBinding) : RecyclerView.ViewHolder(binding.root) {
-        val textTitle = binding.textTitle
-        val textInfo = binding.textInfo
-        val textTime = binding.textTime
-    }
+    inner class ViewHolder(val binding: ItemWarningBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemWarningBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -27,7 +23,7 @@ class WarningAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val warning = warningList[position]
         val index = warning.pubTime.lastIndexOf('+')
-        holder.apply {
+        holder.binding.apply {
             textTitle.text = context.getString(R.string.str_waring, warning.typeName, warning.level)
             textInfo.text = warning.text
             textTime.text = context.getString(

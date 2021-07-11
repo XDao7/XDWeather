@@ -24,15 +24,7 @@ class CityAdapter(
         private const val TYPE_LOCATION = 3
     }
 
-    inner class ViewHolder(binding: ItemCityBinding) : RecyclerView.ViewHolder(binding.root) {
-        val root = binding.root
-        val groupWeather = binding.groupWeather
-        val textCity = binding.textCity
-        val textTemp = binding.textTemp
-        val textSky = binding.textSky
-        val imgChoose = binding.imgChoose
-        val imgTool = binding.imgTool
-        val viewMask = binding.viewMask
+    inner class ViewHolder(val binding: ItemCityBinding) : RecyclerView.ViewHolder(binding.root) {
         var type = TYPE_CITY
     }
 
@@ -43,7 +35,7 @@ class CityAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val activity = fragment.activity as WeatherActivity
-        holder.apply {
+        holder.binding.apply {
             root.setCardBackgroundColor(colors[position])
             if (position >= cityList.locations.size || cityList.position < 0) {
                 groupWeather.visibility = View.GONE
@@ -51,7 +43,7 @@ class CityAdapter(
                 imgTool.visibility = View.VISIBLE
                 imgTool.setImageResource(R.drawable.ic_add)
                 viewMask.visibility = View.GONE
-                type = TYPE_ADD
+                holder.type = TYPE_ADD
             } else {
                 val location = cityList.locations[position]
                 groupWeather.visibility = View.VISIBLE
@@ -60,10 +52,10 @@ class CityAdapter(
                 viewMask.visibility = View.GONE
                 textCity.text = location.name
                 if (location.isCurrentLocation) {
-                    type = TYPE_LOCATION
+                    holder.type = TYPE_LOCATION
                     imgChoose.visibility = View.VISIBLE
                 } else {
-                    type = TYPE_CITY
+                    holder.type = TYPE_CITY
                     imgChoose.visibility = View.GONE
                 }
 
@@ -89,11 +81,9 @@ class CityAdapter(
                 }
             }
             viewMask.setOnClickListener {
-                holder.apply {
-                    viewMask.visibility = View.GONE
-                    imgTool.visibility = View.GONE
-                    type = TYPE_CITY
-                }
+                viewMask.visibility = View.GONE
+                imgTool.visibility = View.GONE
+                holder.type = TYPE_CITY
             }
             root.setOnClickListener {
                 if (holder.type == TYPE_CITY || holder.type == TYPE_LOCATION) {
@@ -106,12 +96,10 @@ class CityAdapter(
             }
             root.setOnLongClickListener {
                 if (holder.type == TYPE_CITY) {
-                    holder.apply {
-                        viewMask.visibility = View.VISIBLE
-                        imgTool.visibility = View.VISIBLE
-                        imgTool.setImageResource(R.drawable.ic_delete)
-                        type = TYPE_DELETE
-                    }
+                    viewMask.visibility = View.VISIBLE
+                    imgTool.visibility = View.VISIBLE
+                    imgTool.setImageResource(R.drawable.ic_delete)
+                    holder.type = TYPE_DELETE
                     true
                 } else {
                     false

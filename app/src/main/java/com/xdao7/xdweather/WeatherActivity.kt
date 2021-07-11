@@ -314,7 +314,7 @@ class WeatherActivity : AppCompatActivity() {
                         textDate.text = skycon.fxDate
                         val sky = getSky(skycon.iconDay)
                         imageSky.setImageResource(sky.smallIcon)
-                        textSky.text = sky.info
+                        textSky.text = skycon.textDay
                         textTemperature.text =
                             getString(R.string.str_temp_limit, skycon.tempMin, skycon.tempMax)
                     }

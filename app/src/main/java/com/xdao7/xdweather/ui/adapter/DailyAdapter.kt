@@ -16,31 +16,7 @@ class DailyAdapter(
 ) :
     RecyclerView.Adapter<DailyAdapter.ViewHolder>() {
 
-    inner class ViewHolder(binding: ItemDailyBinding) : RecyclerView.ViewHolder(binding.root) {
-        val svWeather = binding.svWeather
-        val textWeek = binding.textWeek
-        val textDate = binding.textDate
-        val textTempMax = binding.textTempMax
-        val textTempMin = binding.textTempMin
-        val imageDay = binding.imageDay
-        val textDay = binding.textDay
-        val textDay360 = binding.textDay360
-        val textDayDirection = binding.textDayDirection
-        val textDayScale = binding.textDayScale
-        val textDaySpeed = binding.textDaySpeed
-        val imageNight = binding.imageNight
-        val textNight = binding.textNight
-        val textNight360 = binding.textNight360
-        val textNightDirection = binding.textNightDirection
-        val textNightScale = binding.textNightScale
-        val textNightSpeed = binding.textNightSpeed
-        val textPrecip = binding.textPrecip
-        val textUvIndex = binding.textUvIndex
-        val textHumidity = binding.textHumidity
-        val textPressure = binding.textPressure
-        val textVis = binding.textVis
-        val textCloud = binding.textCloud
-    }
+    inner class ViewHolder(val binding: ItemDailyBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemDailyBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -51,20 +27,20 @@ class DailyAdapter(
         val daily = dailyList[position]
         val daySky = getSky(daily.iconDay)
         val nightSky = getSky(daily.iconNight)
-        holder.apply {
+        holder.binding.apply {
             svWeather.scrollTo(0, 0)
             textWeek.text = context.getString(getWeek(position))
             textDate.text = daily.fxDate
             textTempMax.text = daily.tempMax.toString()
             textTempMin.text = context.getString(R.string.str_daily_temp, daily.tempMin)
             imageDay.setImageResource(daySky.smallIcon)
-            textDay.text = daySky.info
+            textDay.text = daily.textDay
             textDay360.text = context.getString(R.string.str_daily_360, daily.wind360Day)
             textDayDirection.text = daily.windDirDay
             textDayScale.text = context.getString(R.string.str_daily_scale, daily.windScaleDay)
             textDaySpeed.text = context.getString(R.string.str_daily_speed, daily.windSpeedDay)
             imageNight.setImageResource(nightSky.smallIcon)
-            textNight.text = nightSky.info
+            textNight.text = daily.textNight
             textNight360.text = context.getString(R.string.str_daily_360, daily.wind360Night)
             textNightDirection.text = daily.windDirNight
             textNightScale.text = context.getString(R.string.str_daily_scale, daily.windScaleNight)
