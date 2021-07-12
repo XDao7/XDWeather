@@ -85,7 +85,7 @@ class NetworkUtils {
         }
 
         fun removeNetworkCallback(tag: Any) {
-            callbackList[tag]
+            callbackList.remove(tag)
         }
     }
 

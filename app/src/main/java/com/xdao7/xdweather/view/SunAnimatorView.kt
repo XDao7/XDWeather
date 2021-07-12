@@ -153,16 +153,6 @@ class SunAnimatorView : BaseScrollAnimatorView {
         positionY = radius + marginTop - iconWidth / 2
     }
 
-    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-        super.onLayout(
-            changed,
-            measuredWidth / 2 - radius,
-            marginTop,
-            measuredWidth / 2 + radius,
-            radius * 2 + marginTop
-        )
-    }
-
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         drawSemicircle(canvas)
